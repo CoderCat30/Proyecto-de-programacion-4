@@ -1,4 +1,4 @@
-package com.tienda.app.repositorys;
+package com.tienda.app.repository;
 
 public interface UserRepository {
 }
