@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS ComprasUNABD;
+
 CREATE DATABASE IF NOT EXISTS ComprasUNABD
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_0900_ai_ci;
@@ -83,23 +85,23 @@ CREATE INDEX IX_address_label ON user_address(user_id, label);
 CREATE INDEX IX_billing_user ON billing_method(user_id);
 
 
-DELIMITER $$
+DELIMITER //
 
 CREATE PROCEDURE sp_auth_login(IN p_email VARCHAR(254))
 BEGIN
   SELECT id, email, password_hash FROM user_credentials WHERE email = p_email LIMIT 1;
-END $$
+end //
 
 CREATE PROCEDURE sp_get_user_id_by_email(IN p_email VARCHAR(254))
 BEGIN
   SELECT id FROM user_credentials WHERE email = p_email LIMIT 1;
-END $$
+end //
 
 CREATE PROCEDURE sp_user_profile(IN p_user_id INT)
 BEGIN
   SELECT id, email FROM user_credentials WHERE id = p_user_id LIMIT 1;
   SELECT user_id, firstName, lastName, fullName, cedula FROM user_information WHERE user_id = p_user_id LIMIT 1;
-END $$
+end //
 
 CREATE PROCEDURE sp_user_overview_by_email(IN p_email VARCHAR(254))
 BEGIN
@@ -109,11 +111,11 @@ BEGIN
   SELECT user_id, firstName, lastName, fullName, cedula FROM user_information WHERE user_id = v_user_id;
   SELECT id, user_id, label, line1, line2, city, state, postal_code, country_code, phone, is_default_shipping, is_default_billing FROM user_address WHERE user_id = v_user_id ORDER BY id DESC;
   SELECT id, user_id, provider, provider_payment_token, brand, funding, last4, exp_month, exp_year, name_on_card, billing_address_id, is_default FROM billing_method WHERE user_id = v_user_id ORDER BY id DESC;
-END $$
+end //
 
 DELIMITER ;
 
-DELIMITER $$
+delimiter //
 
 CREATE PROCEDURE sp_list_addresses(IN p_user_id INT)
 BEGIN
@@ -121,7 +123,7 @@ BEGIN
   FROM user_address
   WHERE user_id = p_user_id
   ORDER BY is_default_shipping DESC, is_default_billing DESC, id DESC;
-END $$
+end //
 
 CREATE PROCEDURE sp_add_address(
   IN p_user_id INT,
@@ -148,7 +150,7 @@ BEGIN
   VALUES(p_user_id,p_label,p_line1,p_line2,p_city,p_state,p_postal_code,p_country_code,p_phone,p_is_default_shipping,p_is_default_billing);
   SELECT LAST_INSERT_ID() AS address_id;
   COMMIT;
-END $$
+end //
 
 CREATE PROCEDURE sp_set_default_shipping(IN p_user_id INT, IN p_address_id INT)
 BEGIN
@@ -156,7 +158,7 @@ BEGIN
   UPDATE user_address SET is_default_shipping = 0 WHERE user_id = p_user_id;
   UPDATE user_address SET is_default_shipping = 1 WHERE id = p_address_id AND user_id = p_user_id;
   COMMIT;
-END $$
+end //
 
 CREATE PROCEDURE sp_set_default_billing_address(IN p_user_id INT, IN p_address_id INT)
 BEGIN
@@ -164,11 +166,11 @@ BEGIN
   UPDATE user_address SET is_default_billing = 0 WHERE user_id = p_user_id;
   UPDATE user_address SET is_default_billing = 1 WHERE id = p_address_id AND user_id = p_user_id;
   COMMIT;
-END $$
+end //
 
 DELIMITER ;
 
-DELIMITER $$
+delimiter //
 
 CREATE PROCEDURE sp_list_billing_methods(IN p_user_id INT)
 BEGIN
@@ -176,7 +178,7 @@ BEGIN
   FROM billing_method
   WHERE user_id = p_user_id
   ORDER BY is_default DESC, id DESC;
-END $$
+end //
 
 CREATE PROCEDURE sp_add_billing_method(
   IN p_user_id INT,
@@ -200,7 +202,7 @@ BEGIN
   VALUES(p_user_id,p_provider,p_provider_payment_token,p_brand,p_funding,p_last4,p_exp_month,p_exp_year,p_name_on_card,p_billing_address_id,p_set_default);
   SELECT LAST_INSERT_ID() AS billing_method_id;
   COMMIT;
-END $$
+end //
 
 CREATE PROCEDURE sp_set_default_billing_method(IN p_user_id INT, IN p_billing_method_id INT)
 BEGIN
@@ -208,11 +210,11 @@ BEGIN
   UPDATE billing_method SET is_default = 0 WHERE user_id = p_user_id;
   UPDATE billing_method SET is_default = 1 WHERE id = p_billing_method_id AND user_id = p_user_id;
   COMMIT;
-END $$
+end //
 
 DELIMITER ;
 
-DELIMITER $$
+delimiter //
 
 CREATE PROCEDURE sp_upsert_user_information(
   IN p_user_id INT,
@@ -230,11 +232,11 @@ BEGIN
     fullName  = VALUES(fullName),
     cedula    = VALUES(cedula);
   SELECT user_id, firstName, lastName, fullName, cedula FROM user_information WHERE user_id = p_user_id LIMIT 1;
-END $$
+end //
 
 DELIMITER ;
 
-DELIMITER $$
+delimiter //
 
 CREATE PROCEDURE sp_checkout_snapshot(IN p_user_id INT)
 BEGIN
@@ -255,7 +257,7 @@ BEGIN
   WHERE user_id = p_user_id AND is_default = 1
   ORDER BY id DESC
   LIMIT 1;
-END $$
+end //
 
 
 -- Tabla de Categorías
@@ -360,7 +362,7 @@ CREATE TABLE orders (
                         shipped_date TIMESTAMP NULL,
                         estimated_delivery_date DATE NULL,
                         delivered_date TIMESTAMP NULL,
-                        cancelled_date TIMESTAMP NULL,
+                        cancelled_date TIMESTAMP NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
