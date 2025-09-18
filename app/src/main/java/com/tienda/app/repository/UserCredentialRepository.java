@@ -11,4 +11,6 @@ public interface UserCredentialRepository extends JpaRepository<UserCredentialMo
     Optional<UserCredentialModel> findByEmailAndPasswordHash(String email, String passwordHash);
     //Para evitar repeticion del email en el sistema
     Optional<UserCredentialModel> findByEmail(String email);
+
+    Optional<UserCredentialModel> findByEmailAndPasswordHashEquals(String email, String passwordHash);
 }

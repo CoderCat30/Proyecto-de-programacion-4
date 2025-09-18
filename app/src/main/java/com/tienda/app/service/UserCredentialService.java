@@ -12,8 +12,6 @@ public class UserCredentialService {
         this.userCredentialRepository = userCredentialRepository;
     }
 
-
-
     public UserCredentialModel registrarUser(String email, String passwordHash) {
         if (email == null || email.isEmpty() || passwordHash == null || passwordHash.isEmpty()) return null;
         UserCredentialModel userCredential = new UserCredentialModel();
@@ -27,6 +25,8 @@ public class UserCredentialService {
         return userCredentialRepository.findByEmail(email).orElse(null);
     }
 
-
+    public UserCredentialModel ValidarCredenciales(String email, String password_hash) {
+        return userCredentialRepository.findByEmailAndPasswordHash(email, password_hash).orElse(null);
+    }
 
 }

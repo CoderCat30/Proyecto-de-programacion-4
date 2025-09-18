@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
-    <link rel="stylesheet" th:href="@{/css/DatosPersonales.css}">
-
+    <title>Inicio de sesion</title>
 </head>
 <body>
 
 
 <div class="container">
 
-    <h2>Registrar Usuario</h2>
-    <form  method="POST" action="/registrar" th:object="${registroSolicitud}">
+    <h2>Iniciar session</h2>
+    <form  method="POST" action="/ingresar" th:object="${usuario}">
         <div th:classappend="${error} ? ' mensaje-error' : ''" class="input-datos">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -23,7 +20,10 @@
             <input type="password" id="contrasena" name="passwordHash" required>
         </div>
         <div class="button-container">
-            <input type="submit" value="Registrar">
+            <input type="submit" value="Validar">
+        </div>
+        <div>
+            Si no posee cuenta existente, debe <a href="/registrar">registrarse</a>
         </div>
     </form>
 
@@ -33,6 +33,7 @@
     <div th:if="${exito}" class="mensaje-exito">
         <p th:text="${exito}"></p>
     </div>
-</div>
+
 </body>
+
 </html>

@@ -16,6 +16,26 @@ public class UserCredentialController {
     }
 
 
+    @GetMapping("/ingresar")
+    public String ingresar(Model model) {
+        model.addAttribute("userCredentialModel", new UserCredentialModel());
+        return "pagina_ingresar";
+    }
+
+    @PostMapping("/ingresar")
+    public String ingresar(@ModelAttribute UserCredentialModel userCredential, Model model){
+
+        UserCredentialModel user = userCredentialService.ValidarCredenciales(userCredential.getEmail(), userCredential.getPasswordHash());
+        //Se manda a buscar por login o email, si se encontro 1 usuario coincidiente se manda error
+        if(user != null){
+            model.addAttribute("error", "No existe usuario con esa contraseña");
+            return "pagina_registrar";
+        }
+        userCredentialService.registrarUser(userCredential.getEmail(), userCredential.getPasswordHash());
+        model.addAttribute("exito", "Inicio exitoso");
+
+        return "/index";
+    }
 
     @GetMapping("/registrar")
     public String getRegistrarP(){
