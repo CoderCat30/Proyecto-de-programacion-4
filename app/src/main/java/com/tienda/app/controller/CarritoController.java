@@ -16,11 +16,14 @@ public class CarritoController {
 
     @GetMapping
     public String verCarrito(HttpSession session, Model model) {
+        model.addAttribute("tittle","Carrito");
+
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
         if (carrito == null) carrito = new ArrayList<>();
 
         double total = carrito.stream().mapToDouble(CarritoItem::getSubtotal).sum();
 
+        model.addAttribute("title", "Carrito");
         model.addAttribute("carrito", carrito);
         model.addAttribute("total", total);
         return "carrito"; // carrito.html

@@ -5,15 +5,12 @@
   <title>Catálogo de Productos</title>
   <link rel="stylesheet" th:href="@{/css/articulos.css}">
 </head>
-<body>
+<body th:fragment="catalogo">
 <div class="container">
   <h2>Catálogo de Productos</h2>
-
-
   <div class="carrito-btn-container">
     <a href="/carrito" class="btn-carrito">🛒 Ver Carrito</a>
   </div>
-
   <div class="grid">
     <div class="card" th:each="articulo : ${articulos}">
       <img th:src="${articulo.imageUrl}" alt="Imagen del producto">
@@ -26,7 +23,7 @@
         <button type="submit" class="btn-agregar">Agregar al carrito</button>
       </form>
     </div>
-    <a href="/carrito" class="btn btn-carrito">Ver Carrito</a>
+
   </div>
 </div>
 </body>
