@@ -22,7 +22,7 @@ public class CarritoController {
 
         model.addAttribute("carrito", carrito);
         model.addAttribute("total", total);
-        return "carrito"; // carrito.html en templates
+        return "carrito"; // carrito.html
     }
 
     @PostMapping("/agregar")
@@ -50,6 +50,28 @@ public class CarritoController {
         return "redirect:/carrito";
     }
 
+    @PostMapping("/actualizar")
+    public String actualizarCantidad(@RequestParam Integer id,
+                                     @RequestParam int cantidad,
+                                     HttpSession session) {
+        List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
+        if (carrito != null) {
+            carrito.removeIf(item -> {
+                if (item.getProductoId().equals(id)) {
+                    if (cantidad > 0) {
+                        item.setCantidad(cantidad);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+                return false;
+            });
+            session.setAttribute("carrito", carrito);
+        }
+        return "redirect:/carrito";
+    }
+
     @PostMapping("/eliminar")
     public String eliminarDelCarrito(@RequestParam Integer id, HttpSession session) {
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
@@ -65,5 +87,23 @@ public class CarritoController {
         session.removeAttribute("carrito");
         return "redirect:/carrito";
     }
+
+    @PostMapping("/finalizar")
+    public String finalizarCompra(HttpSession session, Model model) {
+        List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
+        if (carrito == null || carrito.isEmpty()) {
+            model.addAttribute("mensaje", "El carrito está vacío.");
+            return "carrito";
+        }
+
+        double total = carrito.stream().mapToDouble(CarritoItem::getSubtotal).sum();
+
+        // TODO: Aquí es donde después guardas la orden en la BD (orders + order_items)
+        session.removeAttribute("carrito"); // limpiar carrito
+
+        model.addAttribute("exito", "Compra finalizada con éxito. Total: ₡" + total);
+        return "carrito";
+    }
 }
+
 

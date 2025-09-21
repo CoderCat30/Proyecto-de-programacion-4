@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Carrito de Compras</title>
-    <link rel="stylesheet" th:href="@{/css/DatosPersonales.css}">
+    <link rel="stylesheet" th:href="@{/css/carrito.css}">
 </head>
 <body>
 <div class="container">
-    <h2>Carrito de Compras</h2>
+    <h2>Carrito de Compras 🛒</h2>
 
     <table>
         <thead>
@@ -16,30 +16,44 @@
             <th>Precio</th>
             <th>Cantidad</th>
             <th>Subtotal</th>
-            <th>Acción</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${carrito}">
             <td th:text="${item.nombre}"></td>
-            <td th:text="${item.precio}"></td>
-            <td th:text="${item.cantidad}"></td>
-            <td th:text="${item.subtotal}"></td>
+            <td>₡<span th:text="${item.precio}"></span></td>
+            <td>
+                <form th:action="@{/carrito/actualizar}" method="post">
+                    <input type="hidden" name="id" th:value="${item.productoId}">
+                    <input type="number" name="cantidad" th:value="${item.cantidad}" min="1">
+                    <button type="submit" class="btn-actualizar">🔄 Actualizar</button>
+                </form>
+            </td>
+            <td>₡<span th:text="${item.subtotal}"></span></td>
             <td>
                 <form th:action="@{/carrito/eliminar}" method="post">
                     <input type="hidden" name="id" th:value="${item.productoId}">
-                    <button type="submit">Eliminar</button>
+                    <button type="submit" class="btn-eliminar">❌ Eliminar</button>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <h3>Total: <span th:text="${total}"></span></h3>
+    <h3>Total: ₡<span th:text="${total}"></span></h3>
 
-    <form th:action="@{/carrito/vaciar}" method="post">
-        <button type="submit">Vaciar carrito</button>
-    </form>
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+
+        <form th:action="@{/carrito/vaciar}" method="post">
+            <button type="submit" class="btn-vaciar">🗑️ Vaciar carrito</button>
+        </form>
+
+
+        <form th:action="@{/carrito/finalizar}" method="post">
+            <button type="submit" class="btn-finalizar">✅ Finalizar compra</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>
