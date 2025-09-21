@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" th:href="@{/css/carrito.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Carrito de Compras 🛒</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${carrito}">
+            <td th:text="${item.nombre}"></td>
+            <td>₡<span th:text="${item.precio}"></span></td>
+            <td>
+                <form th:action="@{/carrito/actualizar}" method="post">
+                    <input type="hidden" name="id" th:value="${item.productoId}">
+                    <input type="number" name="cantidad" th:value="${item.cantidad}" min="1">
+                    <button type="submit" class="btn-actualizar">🔄 Actualizar</button>
+                </form>
+            </td>
+            <td>₡<span th:text="${item.subtotal}"></span></td>
+            <td>
+                <form th:action="@{/carrito/eliminar}" method="post">
+                    <input type="hidden" name="id" th:value="${item.productoId}">
+                    <button type="submit" class="btn-eliminar">❌ Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Total: ₡<span th:text="${total}"></span></h3>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <!-- Botón vaciar -->
+        <form th:action="@{/carrito/vaciar}" method="post">
+            <button type="submit" class="btn-vaciar">🗑️ Vaciar carrito</button>
+        </form>
+
+        <!-- Botón finalizar -->
+        <form th:action="@{/carrito/finalizar}" method="post">
+            <button type="submit" class="btn-finalizar">✅ Finalizar compra</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

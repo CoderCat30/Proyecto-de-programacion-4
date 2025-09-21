@@ -1,38 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario</title>
+    <!-- Ruta correcta al CSS -->
     <link rel="stylesheet" th:href="@{/css/DatosPersonales.css}">
-
 </head>
 <body>
-
 
 <div class="container">
 
     <h2>Registrar Usuario</h2>
-    <form  method="POST" action="/registrar" th:object="${registroSolicitud}">
+
+    <!-- Usar el mismo nombre que en el controlador -->
+    <form method="POST" action="/registrar" th:object="${userCredentialModel}">
+
         <div th:classappend="${error} ? ' mensaje-error' : ''" class="input-datos">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" th:field="email" required>
         </div>
-        <div class = "input-datos">
+
+        <div class="input-datos">
             <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="passwordHash" required>
+            <input type="password" id="contrasena" th:field="passwordHash" required>
         </div>
+
         <div class="button-container">
             <input type="submit" value="Registrar">
         </div>
     </form>
 
+    <!-- Mensajes dinámicos -->
     <div th:if="${error}" class="mensaje-error">
         <p th:text="${error}"></p>
     </div>
+
     <div th:if="${exito}" class="mensaje-exito">
         <p th:text="${exito}"></p>
     </div>
 </div>
+
 </body>
 </html>

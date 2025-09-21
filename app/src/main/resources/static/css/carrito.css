@@ -1,0 +1,221 @@
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: #333;
+}
+
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 80px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #e98d0d;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 3px solid #e98d0d;
+    padding-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    text-align: center;
+    padding: 14px;
+}
+
+th {
+    background-color: #ffefd6;
+    color: #d46a00;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-bottom: 2px solid #e98d0d;
+}
+
+td {
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+tr:hover td {
+    background-color: #fff8ef;
+    transition: background 0.2s ease-in-out;
+}
+
+input[type="number"] {
+    width: 65px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+input[type="number"]:focus {
+    border: 1px solid #e98d0d;
+    box-shadow: 0 0 6px rgba(233, 141, 13, 0.4);
+    outline: none;
+}
+
+
+button {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+.btn-actualizar {
+    background: #007bff;
+    color: white;
+}
+.btn-actualizar:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.btn-eliminar {
+    background: #dc3545;
+    color: white;
+}
+.btn-eliminar:hover {
+    background: #a71d2a;
+    transform: translateY(-2px);
+}
+
+.btn-vaciar {
+    background: #6c757d;
+    color: white;
+}
+.btn-vaciar:hover {
+    background: #545b62;
+    transform: translateY(-2px);
+}
+
+.btn-finalizar {
+    background: #28a745;
+    color: white;
+}
+.btn-finalizar:hover {
+    background: #1e7e34;
+    transform: translateY(-2px);
+}
+
+
+h3 {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #222;
+}
+
+h3 span {
+    color: #e98d0d;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+.btn-vaciar,
+.btn-finalizar,
+.btn-actualizar,
+.btn-eliminar {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Botón Vaciar */
+.btn-vaciar {
+    background: #6c757d;
+    color: #fff;
+}
+.btn-vaciar:hover {
+    background: #5a6268;
+}
+
+/* Botón Finalizar */
+.btn-finalizar {
+    background: #28a745;
+    color: #fff;
+}
+.btn-finalizar:hover {
+    background: #218838;
+}
+
+/* Botón Actualizar */
+.btn-actualizar {
+    background: #007bff;
+    color: #fff;
+}
+.btn-actualizar:hover {
+    background: #0069d9;
+}
+
+/* Botón Eliminar */
+.btn-eliminar {
+    background: #dc3545;
+    color: #fff;
+}
+.btn-eliminar:hover {
+    background: #c82333;
+}
+
+
