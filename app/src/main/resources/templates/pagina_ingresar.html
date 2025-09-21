@@ -10,8 +10,8 @@
 <div class="container">
 
     <h2>Iniciar session</h2>
-    <form  method="POST" action="/ingresar" th:object="${usuario}">
-        <div th:classappend="${error} ? ' mensaje-error' : ''" class="input-datos">
+    <form method="POST" action="/ingresar" th:object="${userCredentialModel}">
+    <div th:classappend="${error} ? ' mensaje-error' : ''" class="input-datos">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
         </div>
