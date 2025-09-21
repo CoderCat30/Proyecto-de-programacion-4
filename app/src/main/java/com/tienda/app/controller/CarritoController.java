@@ -1,6 +1,7 @@
 package com.tienda.app.controller;
 
 import com.tienda.app.model.CarritoItem;
+import com.tienda.app.model.Checkout;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,22 +89,39 @@ public class CarritoController {
         return "redirect:/carrito";
     }
 
-    @PostMapping("/finalizar")
-    public String finalizarCompra(HttpSession session, Model model) {
+    @GetMapping("/finalizar")
+    public String mostrarFormularioFinalizar(HttpSession session, Model model) {
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
+
         if (carrito == null || carrito.isEmpty()) {
-            model.addAttribute("mensaje", "El carrito está vacío.");
+            model.addAttribute("error", "Tu carrito está vacío.");
+            return "carrito"; // vuelve a carrito si está vacío
+        }
+
+        model.addAttribute("carrito", carrito);
+        model.addAttribute("checkout", new Checkout());
+        return "checkout"; // checkout.html
+    }
+    @PostMapping("/finalizar")
+    public String procesarCompra(@ModelAttribute("checkout") Checkout checkout,
+                                 HttpSession session,
+                                 Model model) {
+        List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
+
+        if (carrito == null || carrito.isEmpty()) {
+            model.addAttribute("error", "Tu carrito está vacío.");
             return "carrito";
         }
 
         double total = carrito.stream().mapToDouble(CarritoItem::getSubtotal).sum();
 
-        // TODO: Aquí es donde después guardas la orden en la BD (orders + order_items)
-        session.removeAttribute("carrito"); // limpiar carrito
+        session.removeAttribute("carrito");
 
-        model.addAttribute("exito", "Compra finalizada con éxito. Total: ₡" + total);
-        return "carrito";
+        model.addAttribute("checkout", checkout);
+        model.addAttribute("total", total);
+
+        return "confirmacion";
     }
+
+
 }
-
-

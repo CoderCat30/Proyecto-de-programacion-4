@@ -44,15 +44,13 @@
     <h3>Total: ₡<span th:text="${total}"></span></h3>
 
     <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-
+        <!-- Vaciar carrito -->
         <form th:action="@{/carrito/vaciar}" method="post">
             <button type="submit" class="btn-vaciar">🗑️ Vaciar carrito</button>
         </form>
 
-
-        <form th:action="@{/carrito/finalizar}" method="post">
-            <button type="submit" class="btn-finalizar">✅ Finalizar compra</button>
-        </form>
+        <!-- Finalizar compra -->
+        <a th:href="@{/carrito/finalizar}" class="btn-finalizar">✅ Finalizar compra</a>
     </div>
 </div>
 </body>

@@ -167,3 +167,55 @@ h3 span {
     }
 }
 
+.btn-vaciar,
+.btn-finalizar,
+.btn-actualizar,
+.btn-eliminar {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Botón Vaciar */
+.btn-vaciar {
+    background: #6c757d;
+    color: #fff;
+}
+.btn-vaciar:hover {
+    background: #5a6268;
+}
+
+/* Botón Finalizar */
+.btn-finalizar {
+    background: #28a745;
+    color: #fff;
+}
+.btn-finalizar:hover {
+    background: #218838;
+}
+
+/* Botón Actualizar */
+.btn-actualizar {
+    background: #007bff;
+    color: #fff;
+}
+.btn-actualizar:hover {
+    background: #0069d9;
+}
+
+/* Botón Eliminar */
+.btn-eliminar {
+    background: #dc3545;
+    color: #fff;
+}
+.btn-eliminar:hover {
+    background: #c82333;
+}
+
+
