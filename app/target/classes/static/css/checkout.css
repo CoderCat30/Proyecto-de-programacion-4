@@ -1,100 +1,71 @@
-/* Contenedor principal */
-.checkout-container {
-    max-width: 500px;
-    margin: 60px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f9fc;
+    margin: 0;
+    padding: 0;
 }
 
-/* Título */
+.checkout-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
 .checkout-container h2 {
     text-align: center;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 15px;
+    color: #e67e22;
+    margin-bottom: 10px;
 }
 
 .checkout-container hr {
-    margin: 15px 0 25px 0;
     border: none;
-    height: 2px;
-    background: linear-gradient(to right, #27ae60, #2ecc71);
-    border-radius: 5px;
+    border-top: 2px solid #e67e22;
+    margin-bottom: 20px;
 }
 
-/* Formulario */
-.checkout-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.checkout-form .form-group {
+    margin-bottom: 15px;
 }
 
-/* Etiquetas */
-.form-group label {
-    font-weight: 600;
-    margin-bottom: 5px;
+.checkout-form label {
     display: block;
-    color: #34495e;
-}
-
-/* Inputs */
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 1.5px solid #bdc3c7;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #27ae60;
-    outline: none;
-    box-shadow: 0px 0px 8px rgba(39, 174, 96, 0.3);
-}
-
-/* Botón */
-.btn-confirmar {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
     font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.checkout-form input,
+.checkout-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.checkout-form input:focus,
+.checkout-form select:focus {
+    border-color: #e67e22;
+    outline: none;
+}
+
+.btn-confirmar {
+    display: block;
+    width: 100%;
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    transition: background 0.3s ease;
 }
 
 .btn-confirmar:hover {
-    background: linear-gradient(135deg, #219150, #27ae60);
-    transform: scale(1.02);
-    box-shadow: 0px 5px 15px rgba(39, 174, 96, 0.4);
-}
-
-/* Animación al cargar */
-.checkout-container {
-    animation: fadeInUp 0.6s ease;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    background: #218838;
 }

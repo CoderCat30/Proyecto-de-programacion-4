@@ -5,43 +5,26 @@
   <title>Catálogo de Productos</title>
   <link rel="stylesheet" th:href="@{/css/articulos.css}">
 </head>
-<body>
-<div th:fragment="catalogo">
-  <div class="container">
-    <h2>Catálogo de Productos</h2>
+<body th:fragment="catalogo">
+<div class="container">
+  <h2>Catálogo de Productos</h2>
+  <div class="carrito-btn-container">
+    <a href="/carrito" class="btn-carrito">🛒 Ver Carrito</a>
+  </div>
+  <div class="grid">
+    <div class="card" th:each="articulo : ${articulos}">
+      <img th:src="${articulo.imageUrl}" alt="Imagen del producto">
+      <h3 th:text="${articulo.name}"></h3>
+      <p th:text="${articulo.description}"></p>
+      <p><strong>₡<span th:text="${articulo.price}"></span></strong></p>
 
-    <div class="acciones-admin">
-      <a href="/articulos/nuevo" class="btn-nuevo">➕ Nuevo Artículo</a>
+      <form th:action="@{/articulos/agregar}" method="post">
+        <input type="hidden" name="id" th:value="${articulo.id}">
+        <button type="submit" class="btn-agregar">Agregar al carrito</button>
+      </form>
     </div>
 
-    <div class="carrito-btn-container">
-      <a href="/carrito" class="btn-carrito">🛒 Ver Carrito</a>
-    </div>
-
-    <div class="grid">
-      <div class="card" th:each="articulo : ${articulos}">
-        <img th:src="${articulo.imageUrl}" alt="Imagen del producto">
-        <h3 th:text="${articulo.name}"></h3>
-        <p th:text="${articulo.description}"></p>
-        <p><strong>₡<span th:text="${articulo.price}"></span></strong></p>
-
-        <form th:action="@{/articulos/agregar}" method="post">
-          <input type="hidden" name="id" th:value="${articulo.id}">
-          <button type="submit" class="btn-agregar">Agregar al carrito</button>
-        </form>
-
-        <!-- Botones CRUD -->
-        <div class="acciones-crud">
-          <a th:href="@{'/articulos/editar/' + ${articulo.id}}" class="btn-editar">✏️ Editar</a>
-          <form th:action="@{'/articulos/eliminar/' + ${articulo.id}}" method="post"
-                onsubmit="return confirm('¿Seguro que quieres eliminar este artículo?');">
-            <button type="submit" class="btn-eliminar">🗑️ Eliminar</button>
-          </form>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 </body>
 </html>
-
