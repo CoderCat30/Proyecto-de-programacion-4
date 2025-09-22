@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <!-- Pueden usar otros css para esta pagina pero las clases de los divs label no coinciden con los de
+    esos css genericos-->
+    <link rel="stylesheet" th:href="@{/css/pagina_ingresar.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <title>Registro de Usuario</title>
@@ -19,7 +21,7 @@
         <h2>Registrar Usuario</h2>
 
         <!-- Usar el mismo nombre que en el controlador -->
-        <form method="POST" action="/registrar" th:object="${userCredentialModel}">
+        <form method="POST" action="/credenciales/registrar" th:object="${userCredentialModel}">
 
             <div th:classappend="${error} ? ' mensaje-error' : ''" class="input-datos">
                 <label for="email">Email:</label>
