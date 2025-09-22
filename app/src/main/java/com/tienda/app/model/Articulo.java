@@ -1,6 +1,9 @@
 package com.tienda.app.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "products")
@@ -16,14 +19,8 @@ public class Articulo {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String sku;
-
     @Column(nullable = false)
     private double price;
-
-    @Column(name = "sale_price")
-    private Double salePrice; // Puede ser null
 
     @Column(name = "image_url", length = 255)
     private String imageUrl;
@@ -31,23 +28,48 @@ public class Articulo {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true; // Usamos Boolean, no boolean
 
-    @Column(name = "is_featured", nullable = false)
-    private Boolean isFeatured = false;
 
-    // ⚡️ Constructores
-    public Articulo() {}
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    public Articulo(String name, String description, String sku, double price, String imageUrl) {
+    @ColumnDefault("0")
+    @Column(name = "stock_quantity")
+    private Integer stockQuantity;
+
+    public Articulo(Integer id, String name, String description, double price, String imageUrl, Boolean isActive, Integer stockQuantity) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.sku = sku;
         this.price = price;
         this.imageUrl = imageUrl;
-        this.isActive = true;
-        this.isFeatured = false;
+        this.isActive = isActive;
+        this.stockQuantity = stockQuantity;
     }
 
-    // ⚡️ Getters & Setters
+    public Integer getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(Integer stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    //  Constructores
+    public Articulo() {}
+
+
+
+    //  Getters & Setters
     public Integer getId() { return id; }
 
     public void setId(Integer id) { this.id = id; }
@@ -60,17 +82,9 @@ public class Articulo {
 
     public void setDescription(String description) { this.description = description; }
 
-    public String getSku() { return sku; }
-
-    public void setSku(String sku) { this.sku = sku; }
-
     public double getPrice() { return price; }
 
     public void setPrice(double price) { this.price = price; }
-
-    public Double getSalePrice() { return salePrice; }
-
-    public void setSalePrice(Double salePrice) { this.salePrice = salePrice; }
 
     public String getImageUrl() { return imageUrl; }
 
@@ -80,7 +94,4 @@ public class Articulo {
 
     public void setIsActive(Boolean isActive) { this.isActive = isActive; }
 
-    public Boolean getIsFeatured() { return isFeatured; }
-
-    public void setIsFeatured(Boolean isFeatured) { this.isFeatured = isFeatured; }
 }

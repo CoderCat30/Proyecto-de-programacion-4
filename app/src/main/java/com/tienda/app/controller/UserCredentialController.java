@@ -2,6 +2,7 @@ package com.tienda.app.controller;
 
 import com.tienda.app.model.UserCredentialModel;
 import com.tienda.app.service.UserCredentialService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,27 +28,30 @@ public class UserCredentialController {
         return "pagina_ingresar";
     }
 
-    @PostMapping("/ingresar")
-    public String ingresar(@ModelAttribute UserCredentialModel userCredential, Model model){
-
-        UserCredentialModel user = userCredentialService.ValidarCredenciales(userCredential.getEmail(), userCredential.getPasswordHash());
-        //Se manda a buscar por login o email, si se encontro 1 usuario coincidiente se manda error
-        if(user != null){
-            model.addAttribute("error", "No existe usuario con esa contraseña");
-            return "pagina_ingresar";
-        }
-        userCredentialService.registrarUser(userCredential.getEmail(), userCredential.getPasswordHash());
-        model.addAttribute("exito", "Inicio exitoso");
-
-        return "/";
-    }
-
     @GetMapping("/registrar")
     public String getRegistrarP(Model model){
-        model.addAttribute("title", "Ingresar");
+        model.addAttribute("title", "Registrar");
         model.addAttribute("userCredentialModel", new UserCredentialModel());
         return "pagina_registrar";
     }
+
+    @PostMapping("/ingresar")
+    public String ingresar(@ModelAttribute UserCredentialModel userCredential, Model model, HttpSession session){
+
+        UserCredentialModel user = userCredentialService.ValidarCredenciales(userCredential.getEmail(), userCredential.getPasswordHash());
+        //Se manda a buscar por login o email, si NO se encontro 1 usuario coincidiente se manda error
+        if(user == null){
+            model.addAttribute("error", "No existe usuario con esa contraseña");
+            return "pagina_ingresar";
+        }
+        //Eliminando passwordhash en el frond
+        user.setPasswordHash("Oculto");
+        System.out.println(user.getRole());
+        session.setAttribute("usuarioLog", user);
+
+        return "redirect:/";
+    }
+
 
     @PostMapping("/registrar")
     public String registrarUsuario(@ModelAttribute UserCredentialModel userCredential, Model model){
@@ -62,6 +66,13 @@ public class UserCredentialController {
         userCredentialService.registrarUser(userCredential.getEmail(), userCredential.getPasswordHash());
         model.addAttribute("exito", "Usuario registrado en el sistema");
         return "pagina_registrar";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session){
+        //Limpia toda la session, incluyendo el carrito OJO
+        session.invalidate();
+        return "redirect:/";
     }
 
 }
