@@ -5,6 +5,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 public class Articulo {
@@ -19,8 +21,6 @@ public class Articulo {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false)
-    private double price;
 
     @Column(name = "image_url", length = 255)
     private String imageUrl;
@@ -38,7 +38,18 @@ public class Articulo {
     @Column(name = "stock_quantity")
     private Integer stockQuantity;
 
-    public Articulo(Integer id, String name, String description, double price, String imageUrl, Boolean isActive, Integer stockQuantity) {
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Articulo(Integer id, String name, String description, BigDecimal price, String imageUrl, Boolean isActive, Integer stockQuantity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -81,10 +92,6 @@ public class Articulo {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
-
-    public double getPrice() { return price; }
-
-    public void setPrice(double price) { this.price = price; }
 
     public String getImageUrl() { return imageUrl; }
 

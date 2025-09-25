@@ -49,7 +49,7 @@ CREATE TABLE billing_method (
   id INT AUTO_INCREMENT,
   user_id INT NOT NULL,
   card_number varchar (12)NOT NULL,
-  brand ENUM('visa','mastercard','amex','discover','diners','jcb','unionpay') NOT NULL,
+  brand varchar(50),
   exp_month TINYINT NOT NULL,
   exp_year SMALLINT NOT NULL,
   name_on_card VARCHAR(100),
@@ -66,7 +66,7 @@ CREATE TABLE bank (
     id INT AUTO_INCREMENT PRIMARY KEY,
     bank_name VARCHAR(100) NOT NULL,
     card_number VARCHAR(12) NOT NULL,
-    brand ENUM('visa','mastercard','amex','discover','diners','jcb','unionpay') NOT NULL,
+    brand varchar(50) NOT NULL,
     exp_month TINYINT NOT NULL,
     exp_year SMALLINT NOT NULL,
     name_on_card VARCHAR(100),
@@ -149,7 +149,7 @@ INSERT INTO user_credentials (email, role, password_hash) VALUES
 ('user1@gmail.com', 'user', '1234'),
 ('user2@gmail.com', 'user', 'abcd');
 
-INSERT INTO user_information (user_id, fullName, cedula) VALUES
+INSERT INTO user_information (user_id, full_Name, cedula) VALUES
 (1, 'Administrador Principal', '00000001'),
 (2, 'Usuario Uno', '00000002'),
 (3, 'Usuario Dos', '00000003');
