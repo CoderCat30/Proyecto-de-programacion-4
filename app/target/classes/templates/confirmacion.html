@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <title>Compra Confirmada</title>
     <link rel="stylesheet" th:href="@{/css/checkout.css}">
-    <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 <div class="checkout-container">
-    <div th:replace="~{fragments :: header}"></div>
     <div style="display: flex; align-items: center; gap: 10px;">
         <img th:src="@{/imagenes/creditosSoc.jpg}" alt="logo" style="height: 120px; width: auto; border-radius: 10px">
         <h2>¡Gracias por tu compra!</h2>
@@ -40,7 +37,6 @@
     </div>
 
 </div>
-<div th:replace="~{fragments :: footer}"></div>
 </body>
 </html>
 

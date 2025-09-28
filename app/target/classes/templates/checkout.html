@@ -5,11 +5,8 @@
   <title>Finalizar Compra</title>
   <link rel="stylesheet" th:href="@{/css/checkout.css}">
   <link rel="stylesheet" th:href="@{/css/informacionPersonalD.css}">
-    <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
-<div th:replace="~{fragments :: header}"></div>
 <div class="checkout-container">
   <h2>🛍️ FINALIZAR COMPRA</h2>
   <hr>
@@ -74,14 +71,13 @@
       </select>
 
       <!--mensaje de error -->
-      <!--<p th:if="${errorDinero != null}" style="color: red; margin-top: 5px;">
+      <p th:if="${errorDinero != null}" style="color: red; margin-top: 5px;">
         <span th:text="${errorDinero}"></span>
-      </p>-->
+      </p>
     </div>
 
     <button type="submit" class="btn-confirmar">✅ Confirmar compra</button>
   </form>
 </div>
-<div th:replace="~{fragments :: footer}"></div>
 </body>
 </html>
