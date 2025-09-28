@@ -5,10 +5,7 @@
     justify-items: left;
     align-items: center;
 }
-body {
-    padding-top: 80px;  /* Altura del header + margen */
-    padding-bottom: 70px;  /* Altura del footer + margen */
-}
+
 /* Columna izquierda */
 .left-column {
     display: flex;
