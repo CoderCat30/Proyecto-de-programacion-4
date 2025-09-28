@@ -19,7 +19,7 @@ public class UserCredentialModel {
     private String passwordHash;
 
     @Column(name = "role", nullable = false, length = 10)
-    private String role;
+    private String role = "user";
 
     public String getRole() {
         return role;

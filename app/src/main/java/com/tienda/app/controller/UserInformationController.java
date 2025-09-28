@@ -27,14 +27,15 @@ public class UserInformationController {
         this.billingMethodService = billingMethodService;
     }
 
+    //Pagina para visualizar informacion personal y metodos de pagos
     @GetMapping
     public String inicio(HttpSession session, Model model){
         UserCredentialModel userCredentialModel = (UserCredentialModel) session.getAttribute("usuarioLog");
 
         UserInformation userInformation = userInformationService.getUserInformationById(userCredentialModel.getId());
-        UserAddress userAddress = userAddressService.getUserAddressById(userCredentialModel.getId());
+        UserAddress userAddress = userAddressService.getUserAddressByUserId(userCredentialModel.getId());
         List<BillingMethod> list = billingMethodService.findAllByUserId(userCredentialModel.getId());
-        if (userInformation == null){
+        if (userInformation == null){//si no se encontro informacion personal y direccion el usuario esta obligado a crearlos
             return "redirect:/pagina_personal/pagina_datosPersonales";
         }
         model.addAttribute("usuarioInfo", userInformation);
@@ -44,6 +45,7 @@ public class UserInformationController {
     }
 
 
+    //Pagina para crear informacion personal y direccion(address)
     @GetMapping("/pagina_datosPersonales")
     public String pagDatosPersonales(HttpSession session, Model model){
         return "pagina_datosPersonales";
@@ -53,10 +55,10 @@ public class UserInformationController {
 
     @PostMapping("/actualizaraddr")
     public String actualizarDireccion(@ModelAttribute("usuarioAddr") UserAddress usuarioAddr, HttpSession session) {
-        // Obtener el usuario logueado si necesitas asociar la dirección
+        // Obtener el usuario logueado si necesita asociar la dirección
         UserCredentialModel user = (UserCredentialModel) session.getAttribute("usuarioLog");
         usuarioAddr.setUser(user);
-        userAddressService.updateUserAddress(usuarioAddr.getId(), usuarioAddr);
+        userAddressService.updateUserAddress(usuarioAddr);
         return "redirect:/pagina_personal"; // volver a la página del perfil
     }
 
@@ -66,4 +68,19 @@ public class UserInformationController {
         return "redirect:/pagina_personal";
     }
 
+    //metodo que procesa y crea informacion personal y direccion(address)
+    @PostMapping("/perfil/crear")
+    public String crearPerfil(@ModelAttribute UserInformation info,
+                              @ModelAttribute UserAddress addr,
+                              HttpSession session) {
+        UserCredentialModel userCredentialModel = (UserCredentialModel) session.getAttribute("usuarioLog");
+
+        // completar lo que no viene del formulario (id del user)
+        info.setId(userCredentialModel.getId());
+        userInformationService.create(info);
+
+        addr.setUser(userCredentialModel);
+        userAddressService.create(addr);
+        return "redirect:/";
+    }
 }

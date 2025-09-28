@@ -9,7 +9,7 @@ USE ComprasUNABD;
 CREATE TABLE user_credentials (
   id INT AUTO_INCREMENT,
   email VARCHAR(254) NOT NULL,
-  role varchar(10) NOT NULL,
+  role varchar(10) default 'user',
   password_hash VARCHAR(255) NOT NULL,
   CONSTRAINT PK_user_credentials PRIMARY KEY (id),
   CONSTRAINT UQ_user_credentials_email UNIQUE (email)
@@ -119,16 +119,17 @@ CREATE TABLE shopping_cart (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 47 ez
--- Tabla principal de Órdenes (con fechas del flujo de compra)
+-- Tabla principal de Órdenes (agregar fecha y fecha)
 CREATE TABLE orders (
+    -- agregar fecha
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         user_id INT NOT NULL,
                         user_fullname varchar(120),
                         order_number VARCHAR(50) UNIQUE NOT NULL,
     -- Estados del flujo
+    -- simplificar a no enntrega y entregado, con numero o bool, enum = problema
                         order_status ENUM('pending','confirmed','processing','shipped','delivered','cancelled') DEFAULT 'pending',
-                        payment_status ENUM('pending','paid','failed') DEFAULT 'pending',
-    -- Montos
+    -- Monto
                         total DECIMAL(10,2)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -138,7 +139,6 @@ CREATE TABLE order_items (
                              order_id INT NOT NULL,
                              product_id INT NOT NULL,
                              quantity INT NOT NULL,
-                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                              FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
                              FOREIGN KEY (product_id) REFERENCES products(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -147,12 +147,12 @@ CREATE TABLE order_items (
 INSERT INTO user_credentials (email, role, password_hash) VALUES
 ('admin@gmail.com', 'admin', 'admin'),
 ('user1@gmail.com', 'user', '1234'),
-('user2@gmail.com', 'user', 'abcd');
+('user2@gmail.com', 'user', '2345');
 
 INSERT INTO user_information (user_id, full_Name, cedula) VALUES
-(1, 'Administrador Principal', '00000001'),
-(2, 'Usuario Uno', '00000002'),
-(3, 'Usuario Dos', '00000003');
+(1, 'Administrador Principal', '16161'),
+(2, 'Usuario Uno', '641561'),
+(3, 'Usuario Dos', '146544');
 
 
 INSERT INTO user_address (user_id, label, line1, city, state, postal_code, phone) VALUES
@@ -161,11 +161,15 @@ INSERT INTO user_address (user_id, label, line1, city, state, postal_code, phone
 (3, 'home', 'Boulevard Central 678', 'Heredia', 'Heredia', '30103', '88880003');
 
 
-INSERT INTO bank (bank_name, card_number, brand, exp_month, exp_year, name_on_card, balance) VALUES
-('Banco Central', '123456789012', 'visa', 12, 2025, 'Administrador Principal', 5000.00),
-('Banco Nacional', '234567890123', 'mastercard', 6, 2026, 'Usuario Uno', 1500.50),
-('Banco de Costa Rica', '345678901234', 'amex', 11, 2024, 'Usuario Dos', 300.75),
-('Scotiabank', '456789012345', 'discover', 9, 2025, 'Cooperativa', 2000.00);
+INSERT INTO bank (bank_name, card_number, brand, exp_month, exp_year, name_on_card, balance)
+VALUES
+    ('Banco Nacional', '234567890123', 'mastercard', 7, 2027, 'Usuario Dos', 500.00),
+    ('Banco de Costa Rica', '345678901234', 'visa', 5, 2028, 'Usuario Tres', 30000.00);
+
+INSERT INTO billing_method (user_id, card_number, brand, exp_month, exp_year, name_on_card)
+VALUES
+    (2, '234567890123', 'mastercard', 7, 2027, 'Usuario Dos'),
+    (3, '345678901234', 'visa', 5, 2028, 'Usuario Tres');
 
 INSERT INTO categories (name, description, image_url) VALUES
 ('Electrónicos', 'Dispositivos electrónicos y tecnología', 'img/electronicos.jpg'),
