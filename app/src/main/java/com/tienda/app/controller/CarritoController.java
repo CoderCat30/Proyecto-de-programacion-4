@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class CarritoController {
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
         if (carrito == null) carrito = new ArrayList<>();
 
-        double total = carrito.stream().mapToDouble(CarritoItem::getSubtotal).sum();
+        BigDecimal total = carrito.stream().map(CarritoItem::getSubtotal).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         model.addAttribute("title", "Carrito");
         model.addAttribute("carrito", carrito);
@@ -32,7 +33,7 @@ public class CarritoController {
     @PostMapping("/agregar")
     public String agregarAlCarrito(@RequestParam Integer id,
                                    @RequestParam String nombre,
-                                   @RequestParam double precio,
+                                   @RequestParam BigDecimal precio,
                                    HttpSession session) {
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
         if (carrito == null) carrito = new ArrayList<>();
@@ -116,7 +117,7 @@ public class CarritoController {
             return "carrito";
         }
 
-        double total = carrito.stream().mapToDouble(CarritoItem::getSubtotal).sum();
+        BigDecimal total = carrito.stream().map(CarritoItem::getSubtotal).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         session.removeAttribute("carrito");
 

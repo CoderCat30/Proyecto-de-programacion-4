@@ -17,7 +17,7 @@ public class InicioController {
         this.articuloService = articuloService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String home(Model model) {
         model.addAttribute("articulos", articuloService.listarTodos());
         model.addAttribute("title", "Home");
