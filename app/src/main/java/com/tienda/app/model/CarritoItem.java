@@ -1,14 +1,16 @@
 package com.tienda.app.model;
 
+import java.math.BigDecimal;
+
 public class CarritoItem {
 
     private Integer productoId;
     private String nombre;
-    private double precio;
+    private BigDecimal precio;
     private int cantidad;
 
     // Constructor
-    public CarritoItem(Integer productoId, String nombre, double precio, int cantidad) {
+    public CarritoItem(Integer productoId, String nombre, BigDecimal precio, int cantidad) {
         this.productoId = productoId;
         this.nombre = nombre;
         this.precio = precio;
@@ -16,8 +18,8 @@ public class CarritoItem {
     }
 
     // Método para calcular subtotal
-    public double getSubtotal() {
-        return precio * cantidad;
+    public BigDecimal getSubtotal() {
+        return precio.multiply(new BigDecimal(cantidad));
     }
 
     // Getters y Setters
@@ -37,11 +39,11 @@ public class CarritoItem {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 

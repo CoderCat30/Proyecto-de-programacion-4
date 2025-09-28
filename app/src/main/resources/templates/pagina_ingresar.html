@@ -2,38 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio de sesion</title>
+    <link rel="stylesheet" th:href="@{/css/pagina_ingresar.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión - Compras 椰子店</title>
 </head>
 <body>
+<div th:replace="~{fragments :: header}"></div>
 
+<main>
+    <div class="container">
+        <h2>Iniciar sesión</h2>
+        <form method="POST" action="/credenciales/ingresar" th:object="${userCredentialModel}">
+            <div th:classappend="${error} ? ' mensaje-error' : ''" class="input-datos">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-<div class="container">
+            <div class="input-datos">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="passwordHash" required>
+            </div>
 
-    <h2>Iniciar session</h2>
-    <form method="POST" action="/ingresar" th:object="${userCredentialModel}">
-    <div th:classappend="${error} ? ' mensaje-error' : ''" class="input-datos">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div class = "input-datos">
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="passwordHash" required>
-        </div>
-        <div class="button-container">
-            <input type="submit" value="Validar">
-        </div>
-        <div>
-            Si no posee cuenta existente, debe <a href="/registrar">registrarse</a>
-        </div>
-    </form>
+            <div class="button-container">
+                <input type="submit" value="Iniciar sesión">
+            </div>
 
-    <div th:if="${error}" class="mensaje-error">
-        <p th:text="${error}"></p>
+            <div>
+                Si no posee cuenta existente, debe <a href="/credenciales/registrar">registrarse</a>
+            </div>
+        </form>
+
+        <div th:if="${error}" class="mensaje-error">
+            <p th:text="${error}"></p>
+        </div>
+
+        <div th:if="${exito}" class="mensaje-exito">
+            <p th:text="${exito}"></p>
+        </div>
     </div>
-    <div th:if="${exito}" class="mensaje-exito">
-        <p th:text="${exito}"></p>
-    </div>
-</div>
+</main>
+
+<div th:replace="~{fragments :: footer}"></div>
 </body>
 
 </html>

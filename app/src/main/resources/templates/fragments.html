@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Los CSS se cargarán desde las páginas que usen estos fragmentos -->
+</head>
+<body>
+
+<!-- Header fragment -->
+<div th:fragment="header">
+    <header>
+        <div class="logo">
+            <img th:src="@{/imagenes/logo1.jpg}" alt="logo">
+            <h2>Compras 椰子店</h2>
+        </div>
+        <nav>
+            <ul>
+                <li th:if="${usuarioLog == null and title != 'Ingresar'}">
+                    <a href="/credenciales/ingresar">Login</a>
+                </li>
+
+                <li th:if="${usuarioLog != null}">
+                    <div style="display: flex; align-items: center;">
+                        Hola: <span th:text="${usuarioLog.email}"></span>
+                        <form th:action="@{/credenciales/logout}" method="post">
+                            <button type="submit" style="margin-left: 5px; background-color: #d46a00; color: white; border-radius: 5px">Logout</button>
+                        </form>
+                    </div>
+                </li>
+
+                <li th:if="${title != 'Home'}">
+                    <a href="/" class="nav-link">Inicio</a>
+                </li>
+
+                <li th:if="${title != 'Carrito' || title != 'Home'}">
+                    <a href="/carrito">Carrito</a>
+                </li>
+
+                <li  th:if="${usuarioLog != null}">
+                    <a href="/pagina_personal">Personal</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</div>
+
+<!-- Footer fragment -->
+<div th:fragment="footer">
+    <footer>
+        <div class="logo-footer">
+            <img th:src="@{/imagenes/chinaBan.jpg}" alt="China Bandera">
+            <p>中國共產黨萬歲</p>
+        </div>
+        <p>Proyecto Programación 4 - 2025</p>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -17,6 +17,7 @@ public class UserCredentialService {
         UserCredentialModel userCredential = new UserCredentialModel();
         userCredential.setEmail(email);
         userCredential.setPasswordHash(passwordHash);
+        userCredential.setRole("user");
         return userCredentialRepository.save(userCredential);
     }
 
@@ -26,7 +27,7 @@ public class UserCredentialService {
     }
 
     public UserCredentialModel ValidarCredenciales(String email, String password_hash) {
-        return userCredentialRepository.findByEmailAndPasswordHash(email, password_hash).orElse(null);
+        return userCredentialRepository.findByEmailAndPasswordHashEquals(email, password_hash).orElse(null);
     }
 
 }

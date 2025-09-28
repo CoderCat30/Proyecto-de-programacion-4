@@ -1,76 +1,128 @@
 body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
     margin: 0;
-    font-family: "Segoe UI", sans-serif;
-    background: #f8f9fa;
-    color: #333;
+    padding: 0;
 }
+
 
 .container {
     width: 90%;
-    margin: 40px auto;
+    margin: auto;
+    padding: 20px;
 }
+
 
 h2 {
     text-align: center;
-    color: #e98d0d;
-    margin-bottom: 30px;
+    color: #ff7b00;
+    margin-bottom: 20px;
 }
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    text-align: center;
-    transition: transform 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card img {
-    max-width: 100%;
-    height: 180px;
-    object-fit: contain;
+.acciones-admin {
     margin-bottom: 15px;
 }
-
-.btn-agregar {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
+.btn-nuevo {
+    text-decoration: none;
     font-weight: bold;
+    color: #6c63ff;
+    padding: 8px 14px;
+    border: 2px solid #6c63ff;
+    border-radius: 6px;
     transition: 0.3s;
 }
-
-.btn-agregar:hover {
-    background: #218838;
+.btn-nuevo:hover {
+    background-color: #6c63ff;
+    color: #fff;
 }
+
+/* Botón carrito */
 .carrito-btn-container {
     text-align: right;
     margin-bottom: 20px;
 }
-
 .btn-carrito {
     background: #007bff;
     color: white;
-    padding: 10px 18px;
+    padding: 10px 15px;
     border-radius: 8px;
-    font-weight: bold;
     text-decoration: none;
+    font-weight: bold;
     transition: 0.3s;
 }
-
 .btn-carrito:hover {
     background: #0056b3;
+}
+
+/* Grid de productos */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-4px);
+}
+
+/* Imagen */
+.card img {
+    max-width: 100%;
+    height: 120px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Botón agregar al carrito */
+.btn-agregar {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn-agregar:hover {
+    background: #218838;
+}
+
+/* Acciones CRUD */
+.acciones-crud {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-editar {
+    text-decoration: none;
+    color: #ff9800;
+    font-weight: bold;
+}
+.btn-editar:hover {
+    color: #e68900;
+}
+
+.btn-eliminar {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-eliminar:hover {
+    background: #c82333;
 }

@@ -4,56 +4,60 @@
     <meta charset="UTF-8">
     <title>Carrito de Compras</title>
     <link rel="stylesheet" th:href="@{/css/carrito.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
-<div class="container">
-    <h2>Carrito de Compras 🛒</h2>
+<div th:replace="~{fragments :: header}"></div>
+<main>
+    <div class="container">
+        <h2>Carrito de Compras 🛒</h2>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Subtotal</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${carrito}">
-            <td th:text="${item.nombre}"></td>
-            <td>₡<span th:text="${item.precio}"></span></td>
-            <td>
-                <form th:action="@{/carrito/actualizar}" method="post">
-                    <input type="hidden" name="id" th:value="${item.productoId}">
-                    <input type="number" name="cantidad" th:value="${item.cantidad}" min="1">
-                    <button type="submit" class="btn-actualizar">🔄 Actualizar</button>
-                </form>
-            </td>
-            <td>₡<span th:text="${item.subtotal}"></span></td>
-            <td>
-                <form th:action="@{/carrito/eliminar}" method="post">
-                    <input type="hidden" name="id" th:value="${item.productoId}">
-                    <button type="submit" class="btn-eliminar">❌ Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <table>
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${carrito}">
+                <td th:text="${item.nombre}"></td>
+                <td>₡<span th:text="${item.precio}"></span></td>
+                <td>
+                    <form th:action="@{/carrito/actualizar}" method="post">
+                        <input type="hidden" name="id" th:value="${item.productoId}">
+                        <input type="number" name="cantidad" th:value="${item.cantidad}" min="1">
+                        <button type="submit" class="btn-actualizar">🔄 Actualizar</button>
+                    </form>
+                </td>
+                <td>₡<span th:text="${item.subtotal}"></span></td>
+                <td>
+                    <form th:action="@{/carrito/eliminar}" method="post">
+                        <input type="hidden" name="id" th:value="${item.productoId}">
+                        <button type="submit" class="btn-eliminar">❌ Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-    <h3>Total: ₡<span th:text="${total}"></span></h3>
+        <h3>Total: ₡<span th:text="${total}"></span></h3>
 
-    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-        <!-- Botón vaciar -->
-        <form th:action="@{/carrito/vaciar}" method="post">
-            <button type="submit" class="btn-vaciar">🗑️ Vaciar carrito</button>
-        </form>
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
 
-        <!-- Botón finalizar -->
-        <form th:action="@{/carrito/finalizar}" method="post">
-            <button type="submit" class="btn-finalizar">✅ Finalizar compra</button>
-        </form>
+            <form th:action="@{/carrito/vaciar}" method="post">
+                <button type="submit" class="btn-vaciar">🗑️ Vaciar carrito</button>
+            </form>
+
+            <a th:href="@{/carrito/finalizar}" class="btn-finalizar">✅ Finalizar compra</a>
+        </div>
     </div>
-</div>
+</main>
+<div th:replace="~{fragments :: footer}"></div>
 </body>
 </html>

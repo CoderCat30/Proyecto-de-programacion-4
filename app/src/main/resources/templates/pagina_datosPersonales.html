@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagina datos personales</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+  <link rel="stylesheet" th:href="@{/css/index.css}">
+  <!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Crear Perfil</title>
+    <style>
+
+      .form-section {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+      }
+
+      .form-section h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .form-row {
+        margin-bottom: 12px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      input {
+        width: 100%;
+        padding: 6px;
+        box-sizing: border-box;
+      }
+
+      button {
+        padding: 8px 14px;
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: auto;
+      }
+    </style>
+
+</head>
+
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main>
+
+  <div class="container">
+    <h2>Crear Perfil de Usuario</h2>
+
+    <form th:action="@{/perfil/crear}" method="post">
+      <!-- user_id oculto -->
+      <input type="hidden" name="userId" th:value="${usuarioLog.id}" />
+
+      <!-- Información Personal -->
+      <div class="form-section">
+        <h3>Información Personal</h3>
+        <div class="form-row">
+          <label for="fullName">Nombre completo</label>
+          <input type="text" id="fullName" name="fullName" required />
+        </div>
+        <div class="form-row">
+          <label for="cedula">Cédula</label>
+          <input type="text" id="cedula" name="cedula" required />
+        </div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="form-section">
+        <h3>Dirección</h3>
+        <div class="form-row">
+          <label for="label">Tipo lugar</label>
+          <input type="text" id="label" name="label" placeholder="Casa, Trabajo..." />
+        </div>
+        <div class="form-row">
+          <label for="line1">Dirección</label>
+          <input type="text" id="line1" name="line1" required />
+        </div>
+        <div class="form-row">
+          <label for="city">Ciudad</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+        <div class="form-row">
+          <label for="state">Provincia/Estado</label>
+          <input type="text" id="state" name="state" />
+        </div>
+        <div class="form-row">
+          <label for="postalCode">Código Postal</label>
+          <input type="text" id="postalCode" name="postalCode" />
+        </div>
+        <div class="form-row">
+          <label for="phone">Teléfono</label>
+          <input type="text" id="phone" name="phone" />
+        </div>
+      </div>
+
+      <button type="submit">Guardar Perfil</button>
+    </form>
+  </div>
+
+
+</main>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

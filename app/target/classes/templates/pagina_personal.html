@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagina Personal</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <style>
+
+        .main-container {
+            display: flex;
+            gap: 20px; /* espacio entre columnas */
+            margin-top: 10px;
+            justify-items: left;
+            align-items: center;
+        }
+
+        /* Columna izquierda */
+        .left-column {
+            display: flex;
+            flex-direction: column; /* los div hijos se ponen uno debajo del otro */
+            gap: 20px; /* espacio entre las cajas */
+        }
+
+        /* Columna derecha */
+        .right-column {
+            padding: 15px;
+            height: fit-content;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            width: 300px;
+        }
+        .form-section h3 {
+            margin-top: 0;
+        }
+        .form-row {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        input[readonly] {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 5px;
+            width: 100%;
+        }
+        button {
+        padding: 6px 10px;
+        cursor: pointer;
+        }
+
+        /* Tabla tarjetas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f8f8f8;
+        }
+
+        .action-col {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{fragments :: header}"></div>
+<main>
+
+    <div class = "main-container">
+
+        <div class = "left-column">
+            <div class="form-section">
+            <h2>Información del Usuario</h2>
+            <form>
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" th:value="${usuarioLog.email}" readonly />
+                </div>
+                <div class="form-row">
+                    <label for="role">Role</label>
+                    <input type="text" id="role" name="role" th:value="${usuarioLog.role}" readonly />
+                </div>
+            </form>
+            </div>
+
+            <div class="form-section">
+                <h3>Información Personal</h3>
+                <form>
+                    <div class="form-row">
+                        <label for="fullName">Nombre Completo</label>
+                        <input type="text" id="fullName" name="fullName" th:value="${usuarioInfo.fullName}" readonly />
+                    </div>
+                    <div class="form-row">
+                        <label for="cedula">Cédula</label>
+                        <input type="text" id="cedula" name="cedula" th:value="${usuarioInfo.cedula}" readonly />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class = "right-column">
+            <div class="form-section">
+                <h3>Información Adicional</h3>
+                <form th:action="@{/pagina_personal/actualizaraddr}" method="post">
+                    <input type="hidden" name="id" th:value="${usuarioAddr.id}" />
+                    <div class="form-row">
+                        <label for="label">Tipo lugar (Casa, trabajo etc)</label>
+                        <input type="text" id="label" name="label" th:value="${usuarioAddr.label}" />
+                    </div>
+                    <div class="form-row">
+                        <label for="line1">Dirección</label>
+                        <input type="text" id="line1" name="line1" th:value="${usuarioAddr.line1}" />
+                    </div>
+                    <div class="form-row">
+                        <label for="city">Ciudad</label>
+                        <input type="text" id="city" name="city" th:value="${usuarioAddr.city}" />
+                    </div>
+                    <div class="form-row">
+                        <label for="state">Estado/Provincia</label>
+                        <input type="text" id="state" name="state" th:value="${usuarioAddr.state}" />
+                    </div>
+                    <div class="form-row">
+                        <label for="postalCode">Código Postal</label>
+                        <input type="text" id="postalCode" name="postalCode" th:value="${usuarioAddr.postalCode}" />
+                    </div>
+                    <div class="form-row">
+                        <label for="phone">Teléfono</label>
+                        <input type="text" id="phone" name="phone" th:value="${usuarioAddr.phone}" />
+                    </div>
+                    <div class="form-row">
+                        <button type="submit">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="right-column">
+            <h3>Métodos de Pago</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Número de Tarjeta</th>
+                    <th>Marca</th>
+                    <th class="action-col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="card : ${billingMs}">
+                    <td th:text="${card.cardNumber}"></td>
+                    <td th:text="${card.brand}"></td>
+                    <td class="action-col">
+                        <form th:action="@{/pagina_personal/deletecard/{id}(id=${card.id})}" method="post">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</main>
+<div th:replace="~{fragments :: footer}"></div>
+</body>
