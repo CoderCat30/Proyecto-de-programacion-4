@@ -1,0 +1,67 @@
+.main-container {
+    display: flex;
+    gap: 20px; /* espacio entre columnas */
+    margin-top: 10px;
+    justify-items: left;
+    align-items: center;
+}
+
+/* Columna izquierda */
+.left-column {
+    display: flex;
+    flex-direction: column; /* los div hijos se ponen uno debajo del otro */
+    gap: 20px; /* espacio entre las cajas */
+}
+
+/* Columna derecha */
+.right-column {
+    padding: 15px;
+    height: fit-content;
+}
+.form-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    width: 300px;
+}
+.form-section h3 {
+    margin-top: 0;
+}
+.form-row {
+    margin-bottom: 10px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+input[readonly] {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 100%;
+}
+button {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+/* Tabla tarjetas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f8f8f8;
+}
+
+.action-col {
+    text-align: center;
+}

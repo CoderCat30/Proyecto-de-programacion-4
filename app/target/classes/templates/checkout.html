@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Finalizar Compra</title>
   <link rel="stylesheet" th:href="@{/css/checkout.css}">
+  <link rel="stylesheet" th:href="@{/css/informacionPersonalD.css}">
 </head>
 <body>
 <div class="checkout-container">
@@ -11,23 +12,68 @@
   <hr>
   <form th:action="@{/carrito/finalizar}" method="post" th:object="${checkout}" class="checkout-form">
 
-    <div class="form-group">
-      <label for="nombre">Nombre completo</label>
-      <input type="text" id="nombre" th:field="*{nombre}" required>
+
+    <!-- Parte para mostrar informacion personal que ira en la orden-->
+    <div class="form-section">
+      <h3>Información Personal</h3>
+        <div class="form-row">
+          <label for="fullName">Nombre Completo</label>
+          <input type="text" id="fullName" name="fullName" th:value="${usuarioInfo.fullName}" readonly />
+        </div>
+        <div class="form-row">
+          <label for="cedula">Cédula</label>
+          <input type="text" id="cedula" name="cedula" th:value="${usuarioInfo.cedula}" readonly />
+        </div>
     </div>
 
-    <div class="form-group">
-      <label for="direccion">Dirección</label>
-      <input type="text" id="direccion" th:field="*{direccion}" required>
+    <!-- Parte para mostrar informacion de dirrecion que ira en la orden-->
+    <div class="form-section">
+      <h3>Direccion a entregar</h3>
+        <div class="form-row">
+          <label for="label">Tipo lugar (Casa, trabajo etc)</label>
+          <input type="text" id="label" name="label" th:value="${usuarioAddr.label}" readonly/>
+        </div>
+        <div class="form-row">
+          <label for="line1">Dirección</label>
+          <input type="text" id="line1" name="line1" th:value="${usuarioAddr.line1}" readonly/>
+        </div>
+        <div class="form-row">
+          <label for="city">Ciudad</label>
+          <input type="text" id="city" name="city" th:value="${usuarioAddr.city}" readonly/>
+        </div>
+        <div class="form-row">
+          <label for="state">Estado/Provincia</label>
+          <input type="text" id="state" name="state" th:value="${usuarioAddr.state}" readonly/>
+        </div>
+        <div class="form-row">
+          <label for="postalCode">Código Postal</label>
+          <input type="text" id="postalCode" name="postalCode" th:value="${usuarioAddr.postalCode}" readonly/>
+        </div>
+        <div class="form-row">
+          <label for="phone">Teléfono</label>
+          <input type="text" id="phone" name="phone" th:value="${usuarioAddr.phone}" readonly/>
+        </div>
     </div>
+
+
 
     <div class="form-group">
       <label for="metodoPago">Método de pago</label>
       <select id="metodoPago" th:field="*{metodoPago}" required>
-        <option value="tarjeta">💳 Tarjeta de crédito</option>
-        <option value="paypal">💲 PayPal</option>
-        <option value="transferencia">🏦 Transferencia bancaria</option>
+        <!-- Opción por defecto -->
+        <option value="" disabled selected>Seleccione una tarjeta</option>
+
+        <!-- Itera la lista -->
+        <option th:each="bm : ${billingMethodList}"
+                th:value="${bm.getId()}"
+                th:text="${'💳 '+bm.cardNumber}">
+        </option>
       </select>
+
+      <!--mensaje de error -->
+      <p th:if="${errorDinero != null}" style="color: red; margin-top: 5px;">
+        <span th:text="${errorDinero}"></span>
+      </p>
     </div>
 
     <button type="submit" class="btn-confirmar">✅ Confirmar compra</button>
