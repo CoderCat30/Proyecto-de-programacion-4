@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Compra Confirmada</title>
-    <link rel="stylesheet" th:href="@{/css/checkout.css}">
+    <link rel="stylesheet" th:href="@{/css/confirmacion.css}">
 </head>
 <body>
-<div class="checkout-container">
+<div class="receipt-container">
     <h2>🎉 ¡Gracias por tu compra!</h2>
-    <hr>
+    <div class="receipt-divider"></div>
 
-    <p><strong>Cliente:</strong> <span th:text="${checkout.nombre}"></span></p>
-    <p><strong>Dirección:</strong> <span th:text="${checkout.direccion}"></span></p>
-    <p><strong>Método de pago:</strong> <span th:text="${checkout.metodoPago}"></span></p>
-    <p><strong>Total:</strong> ₡<span th:text="${total}"></span></p>
-
-    <div class="acciones">
-        <a href="/articulos" class="btn-confirmar">⬅️ Volver a la tienda</a>
+    <div class="receipt-details">
+        <p><strong>Cliente:</strong> <span th:text="${checkout.nombre}"></span></p>
+        <p><strong>Dirección:</strong> <span th:text="${checkout.direccion}"></span></p>
+        <p><strong>Método de pago:</strong> <span th:text="${checkout.metodoPago}"></span></p>
     </div>
+
+    <p class="total">Total: ₡<span th:text="${total}"></span></p>
+
+    <a href="/articulos" class="btn-return">⬅️ Volver a la tienda</a>
 </div>
 </body>
 </html>
