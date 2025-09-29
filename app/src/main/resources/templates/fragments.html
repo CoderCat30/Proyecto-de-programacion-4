@@ -20,12 +20,16 @@
 
                 <li th:if="${usuarioLog != null}">
                     <div style="display: flex; align-items: center;">
-                        Hola: <span th:text="${usuarioLog.email}"></span>
+                        Hola,
+                        <span th:text="${#strings.substringBefore(usuarioLog.email, '@')}"></span>
                         <form th:action="@{/credenciales/logout}" method="post">
-                            <button type="submit" style="margin-left: 5px; background-color: #d46a00; color: white; border-radius: 5px">Logout</button>
+                            <button type="submit" style="margin-left: 5px; background-color: #d46a00; color: white; border-radius: 5px">
+                                Logout
+                            </button>
                         </form>
                     </div>
                 </li>
+
 
                 <li th:if="${title != 'Home'}">
                     <a href="/" class="nav-link">Inicio</a>
