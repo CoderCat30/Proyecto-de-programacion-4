@@ -3,23 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Compra Confirmada</title>
-    <link rel="stylesheet" th:href="@{/css/confirmacion.css}">
+    <link rel="stylesheet" th:href="@{/css/checkout.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
-<div class="receipt-container">
-    <h2>🎉 ¡Gracias por tu compra!</h2>
-    <div class="receipt-divider"></div>
+<div class="checkout-container">
+    <div th:replace="~{fragments :: header}"></div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img th:src="@{/imagenes/creditosSoc.jpg}" alt="logo" style="height: 120px; width: auto; border-radius: 10px">
+        <h2>¡Gracias por tu compra!</h2>
+    </div>
+    <hr>
 
-    <div class="receipt-details">
-        <p><strong>Cliente:</strong> <span th:text="${checkout.nombre}"></span></p>
-        <p><strong>Dirección:</strong> <span th:text="${checkout.direccion}"></span></p>
-        <p><strong>Método de pago:</strong> <span th:text="${checkout.metodoPago}"></span></p>
+    <!-- Datos del cliente -->
+    <p><strong>Cliente:</strong> <span th:text="${checkout.fullName}"></span></p>
+    <p><strong>Cédula:</strong> <span th:text="${checkout.cedula}"></span></p>
+
+    <!-- Dirección -->
+    <p><strong>Dirección:</strong></p>
+    <p><strong>Tipo de lugar: </strong><span th:text="${checkout.label}"></span></p>
+    <p><strong>Direccion: </strong><span th:text="${checkout.line1}"></span></p>
+    <p><strong>Ciudad: </strong><span th:text="${checkout.city}"></span></p>
+    <p><strong>Estado/Provincia: </strong><span th:text="${checkout.state}"></span></p>
+    <p><strong>Codigo Postal: </strong><span th:text="${checkout.postalCode}"></span></p>
+    <p><strong>Telefono: </strong> <span th:text="${checkout.phone}"></span></p>
+
+    <!-- Método de pago -->
+    <p><strong>Método de pago:</strong> 💳 <span th:text="${checkout.cardnumber}"></span></p>
+
+    <!-- Total -->
+    <p><strong>Total:</strong> ₡<span th:text="${total}"></span></p>
+
+    <div class="acciones">
+        <a href="/" class="btn-confirmar">⬅️ Volver a la tienda</a>
     </div>
 
-    <p class="total">Total: ₡<span th:text="${total}"></span></p>
-
-    <a href="/articulos" class="btn-return">⬅️ Volver a la tienda</a>
 </div>
+<div th:replace="~{fragments :: footer}"></div>
 </body>
 </html>
 

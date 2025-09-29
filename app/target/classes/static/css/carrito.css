@@ -4,6 +4,8 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     color: #333;
+    padding-top: 80px;  /* Altura del header + margen */
+    padding-bottom: 70px;  /* Altura del footer + margen */
 }
 
 

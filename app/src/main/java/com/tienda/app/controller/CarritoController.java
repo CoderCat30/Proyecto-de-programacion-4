@@ -1,88 +1,103 @@
 package com.tienda.app.controller;
 
-import com.tienda.app.model.CarritoItem;
-import com.tienda.app.model.Checkout;
+import com.tienda.app.model.*;
+import com.tienda.app.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Controlador encargado de manejar todas las operaciones del carrito de compras:
- * ver, agregar, actualizar, eliminar, vaciar y finalizar la compra.
- */
 @Controller
-@RequestMapping("/carrito") // Todas las rutas inician con /carrito
+@RequestMapping("/carrito")
 public class CarritoController {
+    private final ArticuloService articuloService;
 
-    /**
-     * Método GET para visualizar el carrito de compras.
-     * - Obtiene el carrito desde la sesión (si no existe, crea uno vacío).
-     * - Calcula el total sumando los subtotales de cada item.
-     * - Envía carrito y total a la vista "carrito.html".
-     */
+    public CarritoController(UserInformationService userInformationService, UserAddressService userAddressService,
+                             BillingMethodService billingMethodService, BankService bankService, ArticuloService articuloService) {
+        this.userInformationService = userInformationService;
+        this.userAddressService = userAddressService;
+        this.billingMethodService = billingMethodService;
+        this.bankService = bankService;
+        this.articuloService = articuloService;
+    }
+
+    private final UserInformationService userInformationService;
+    private final UserAddressService userAddressService;
+    private final BillingMethodService  billingMethodService;
+    private final BankService bankService;
+
+
+
     @GetMapping
     public String verCarrito(HttpSession session, Model model) {
-        model.addAttribute("tittle","Carrito"); // Pequeño error tipográfico (tittle en lugar de title)
+        model.addAttribute("tittle","Carrito");
 
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
         if (carrito == null) carrito = new ArrayList<>();
 
-        // Calcula el total del carrito sumando cada subtotal
-        BigDecimal total = carrito.stream()
-                .map(CarritoItem::getSubtotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal total = carrito.stream().map(CarritoItem::getSubtotal).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         model.addAttribute("title", "Carrito");
         model.addAttribute("carrito", carrito);
         model.addAttribute("total", total);
-        return "carrito"; // Muestra carrito.html
+        return "carrito"; // carrito.html
     }
 
-    /**
-     * Método POST para agregar un producto al carrito.
-     * - Recibe datos del producto desde el formulario: id, nombre y precio.
-     * - Si el carrito no existe en sesión, lo crea.
-     * - Si el producto ya está en el carrito, aumenta su cantidad.
-     * - Si no está, lo agrega como nuevo item.
-     */
     @PostMapping("/agregar")
     public String agregarAlCarrito(@RequestParam Integer id,
                                    @RequestParam String nombre,
                                    @RequestParam BigDecimal precio,
-                                   HttpSession session) {
+                                   HttpSession session,
+                                   RedirectAttributes redirectAttributes) {
+
+        // Verificar stock disponible
+        Optional<Articulo> productoOpt = articuloService.buscarPorId(id);
+
+        if (productoOpt.isEmpty()) {  // ← Cambio aquí
+            redirectAttributes.addFlashAttribute("error", "Producto no encontrado");
+            return "redirect:/productos";
+        }
+
+        Articulo producto = productoOpt.get();  // ← Extraer el objeto del Optional
+
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
         if (carrito == null) carrito = new ArrayList<>();
 
         boolean existe = false;
         for (CarritoItem item : carrito) {
             if (item.getProductoId().equals(id)) {
-                // Si ya existe, solo aumentar la cantidad
+                // Verificar que no exceda el stock
+                if (item.getCantidad() + 1 > producto.getStockQuantity()) {
+                    redirectAttributes.addFlashAttribute("error",
+                            "No hay suficiente stock disponible. Stock actual: " + producto.getStockQuantity());
+                    return "redirect:/productos";
+                }
                 item.setCantidad(item.getCantidad() + 1);
                 existe = true;
                 break;
             }
         }
 
-        // Si no existe en el carrito, lo agrega como nuevo
         if (!existe) {
+            if (producto.getStockQuantity() < 1) {
+                redirectAttributes.addFlashAttribute("error", "Producto sin stock disponible");
+                return "redirect:/productos";
+            }
             carrito.add(new CarritoItem(id, nombre, precio, 1));
         }
 
-        // Actualiza carrito en sesión
         session.setAttribute("carrito", carrito);
+        redirectAttributes.addFlashAttribute("success", "Producto agregado al carrito");
         return "redirect:/carrito";
     }
 
-    /**
-     * Método POST para actualizar la cantidad de un producto en el carrito.
-     * - Si la cantidad es mayor a 0, actualiza el valor.
-     * - Si la cantidad es 0 o negativa, elimina el producto del carrito.
-     */
     @PostMapping("/actualizar")
     public String actualizarCantidad(@RequestParam Integer id,
                                      @RequestParam int cantidad,
@@ -93,9 +108,9 @@ public class CarritoController {
                 if (item.getProductoId().equals(id)) {
                     if (cantidad > 0) {
                         item.setCantidad(cantidad);
-                        return false; // mantener el item
+                        return false;
                     } else {
-                        return true; // eliminarlo
+                        return true;
                     }
                 }
                 return false;
@@ -105,10 +120,6 @@ public class CarritoController {
         return "redirect:/carrito";
     }
 
-    /**
-     * Método POST para eliminar un producto del carrito.
-     * - Busca por id y elimina el producto si existe.
-     */
     @PostMapping("/eliminar")
     public String eliminarDelCarrito(@RequestParam Integer id, HttpSession session) {
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
@@ -119,21 +130,13 @@ public class CarritoController {
         return "redirect:/carrito";
     }
 
-    /**
-     * Método POST para vaciar completamente el carrito.
-     * - Elimina el atributo "carrito" de la sesión.
-     */
     @PostMapping("/vaciar")
     public String vaciarCarrito(HttpSession session) {
         session.removeAttribute("carrito");
         return "redirect:/carrito";
     }
 
-    /**
-     * Método GET que muestra el formulario de checkout (finalizar compra).
-     * - Si el carrito está vacío, devuelve error y vuelve a la vista carrito.
-     * - Si hay productos, carga el formulario de checkout con los datos.
-     */
+    //Aqui Beto!!¡¡
     @GetMapping("/finalizar")
     public String mostrarFormularioFinalizar(HttpSession session, Model model) {
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
@@ -143,22 +146,41 @@ public class CarritoController {
             return "carrito"; // vuelve a carrito si está vacío
         }
 
+        //Caso no haya iniciado sesion, no se puede comprar!!¡¡
+        if(session.getAttribute("usuarioLog") == null){
+            return "redirect:/credenciales/ingresar";
+        }
+        UserCredentialModel userCredentialModel = (UserCredentialModel) session.getAttribute("usuarioLog");
+        UserInformation userInformation = userInformationService.getUserInformationById(userCredentialModel.getId());
+        UserAddress userAddress = userAddressService.getUserAddressByUserId(userCredentialModel.getId());
+        if (userInformation == null){//si no se encontro informacion personal y direccion el usuario esta obligado a crearlos
+            return "redirect:/pagina_personal/pagina_datosPersonales";
+        }
+        List<BillingMethod> billingMethodList = billingMethodService.findAllByUserId(userInformation.getId());
+
+        model.addAttribute("usuarioInfo", userInformation);
+        model.addAttribute("usuarioAddr", userAddress);
+
         model.addAttribute("carrito", carrito);
-        model.addAttribute("checkout", new Checkout()); // objeto vacío para enlazar con el form
+        model.addAttribute("checkout", new Checkout());
+        model.addAttribute("billingMethodList", billingMethodList);
+
+        //Verificando si hubo error en una transaccion pasada(falta de dinero)
+        /*String errorDinero = (String) session.getAttribute("errorDinero");
+        if (errorDinero != null) {
+            model.addAttribute("errorDinero", errorDinero);
+            session.removeAttribute("errorDinero"); // <- lo borramos para que no se repita
+        }*/
         return "checkout"; // checkout.html
     }
 
-    /**
-     * Método POST que procesa la compra en el checkout.
-     * - Verifica que el carrito no esté vacío.
-     * - Calcula el total de la compra.
-     * - Limpia el carrito de la sesión (simulando que ya se compró).
-     * - Devuelve la vista de confirmación con los datos del checkout y el total.
-     */
+    //Aqui verificar metodo de pago vs banco, regresar a /finalizar sino tiene dinero(aqui se escoge la tarjeta a utilizar)
+    @Transactional
     @PostMapping("/finalizar")
     public String procesarCompra(@ModelAttribute("checkout") Checkout checkout,
                                  HttpSession session,
-                                 Model model) {
+                                 Model model,
+                                 RedirectAttributes redirectAttributes) {
         List<CarritoItem> carrito = (List<CarritoItem>) session.getAttribute("carrito");
 
         if (carrito == null || carrito.isEmpty()) {
@@ -166,18 +188,77 @@ public class CarritoController {
             return "carrito";
         }
 
-        // Calcula el total de la compra
+        // VALIDAR STOCK ANTES DE PROCESAR LA COMPRA
+        for (CarritoItem item : carrito) {
+            if (!articuloService.verificarStockDisponible(item.getProductoId(), item.getCantidad())) {
+                Optional<Articulo> productoOpt = articuloService.buscarPorId(item.getProductoId());
+
+                String stockDisponible = productoOpt.isPresent()
+                        ? String.valueOf(productoOpt.get().getStockQuantity())
+                        : "0";
+
+                redirectAttributes.addFlashAttribute("error",
+                        "Stock insuficiente para el producto: " + item.getNombre() +
+                                ". Disponible: " + stockDisponible);
+                return "redirect:/carrito/finalizar";
+            }
+        }
+
+        BillingMethod billingMethod = billingMethodService.findById(checkout.getMetodoPago());
         BigDecimal total = carrito.stream()
                 .map(CarritoItem::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Vacía el carrito después de la compra
+        // Descomentar cuando implementes la conexión con el banco
+    /*
+    if(!bankService.ejecutarTransaccion(billingMethod, total)) {
+        redirectAttributes.addFlashAttribute("errorDinero",
+            "No se pudo realizar la compra: falta dinero o falló la conexión con el banco");
+        return "redirect:/carrito/finalizar";
+    }
+    */
+
+        // REBAJAR EL STOCK DE CADA PRODUCTO
+        try {
+            for (CarritoItem item : carrito) {
+                articuloService.actualizarStock(item.getProductoId(), item.getCantidad());
+            }
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Error al actualizar el inventario: " + e.getMessage());
+            return "redirect:/carrito/finalizar";
+        }
+
+        // Preparar datos para la confirmación
+        // GUARDAR el cardNumber ANTES de enmascararlo
+        String cardNumberOriginal = billingMethod.getCardNumber();
+
+        // Crear una copia para mostrar con máscara
+        String cardNumberMasked = maskCardNumber(cardNumberOriginal);
+
+        checkout.setCardnumber(cardNumberMasked);  // Enviar la versión enmascarada
+        checkout.setCarrito(carrito);
         session.removeAttribute("carrito");
 
-        // Envía datos a la vista de confirmación
         model.addAttribute("checkout", checkout);
         model.addAttribute("total", total);
 
-        return "confirmacion"; // confirmacion.html
+        // Aquí puedes crear la orden si lo necesitas
+        // orderService.crearOrden(checkout, carrito, total);
+
+        return "confirmacion";
     }
+
+    // Método auxiliar para enmascarar el número de tarjeta
+    private String maskCardNumber(String cardNumber) {
+        if (cardNumber == null || cardNumber.length() < 6) {
+            return cardNumber;
+        }
+        String first2 = cardNumber.substring(0, 2);
+        String last4 = cardNumber.substring(cardNumber.length() - 4);
+        String middle = "*".repeat(cardNumber.length() - 6);
+        return first2 + middle + last4;
+    }
+
+
 }

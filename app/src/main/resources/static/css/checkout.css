@@ -2,7 +2,13 @@ body {
     font-family: Arial, sans-serif;
     background: #f7f9fc;
     margin: 0;
-    padding: 0;
+    padding-top: 80px;  /* Altura del header + margen */
+    padding-bottom: 70px;  /* Altura del footer + margen */
+
+}
+/* Añadir esto a tu CSS global o en cada página */
+body {
+
 }
 
 .checkout-container {

@@ -12,11 +12,15 @@ public class UserAddressService
         this.userAddressRepository = userAddressRepository;
     }
 
-    public UserAddress getUserAddressById(Integer id){
-        return userAddressRepository.findById(id).orElse(null);
+    public UserAddress create(UserAddress userAddress){
+        return userAddressRepository.save(userAddress);
     }
 
-    public UserAddress updateUserAddress(Integer id, UserAddress userAddress){
+    public UserAddress getUserAddressByUserId(Integer id){
+        return userAddressRepository.findByUser_Id(id).orElse(null);
+    }
+
+    public UserAddress updateUserAddress(UserAddress userAddress){
         return userAddressRepository.save(userAddress);
     }
 }

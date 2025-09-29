@@ -9,6 +9,7 @@
     <title>Inicio de sesión - Compras 椰子店</title>
 </head>
 <body>
+<!-- Header fijo -->
 <div th:replace="~{fragments :: header}"></div>
 
 <main>
@@ -29,9 +30,7 @@
                 <input type="submit" value="Iniciar sesión">
             </div>
 
-            <div>
-                Si no posee cuenta existente, debe <a href="/credenciales/registrar">registrarse</a>
-            </div>
+            <p class="registro">Si no posee cuenta, debe <a href="/credenciales/registrar">registrarse</a></p>
         </form>
 
         <div th:if="${error}" class="mensaje-error">
@@ -44,7 +43,7 @@
     </div>
 </main>
 
+<!-- Footer fijo -->
 <div th:replace="~{fragments :: footer}"></div>
 </body>
-
 </html>

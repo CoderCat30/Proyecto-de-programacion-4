@@ -1,25 +1,23 @@
 package com.tienda.app.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "billing_method")
-public class BillingMethod {
+@Table(name = "bank")
+public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserCredentialModel user;
+    @Column(name = "bank_name", nullable = false, length = 100)
+    private String bankName;
 
     @Column(name = "card_number", nullable = false, length = 12)
     private String cardNumber;
-
 
     @Column(name = "brand", nullable = false, length = 50)
     private String brand;
@@ -33,6 +31,10 @@ public class BillingMethod {
     @Column(name = "name_on_card", length = 100)
     private String nameOnCard;
 
+    @ColumnDefault("0.00")
+    @Column(name = "balance", precision = 10, scale = 2)
+    private BigDecimal balance;
+
     public Integer getId() {
         return id;
     }
@@ -41,12 +43,12 @@ public class BillingMethod {
         this.id = id;
     }
 
-    public UserCredentialModel getUser() {
-        return user;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setUser(UserCredentialModel user) {
-        this.user = user;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public String getCardNumber() {
@@ -89,18 +91,12 @@ public class BillingMethod {
         this.nameOnCard = nameOnCard;
     }
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
 
-
-    public void clearFields() {
-        this.expMonth = null;
-        this.expYear = null;
-        if (cardNumber == null || cardNumber.length() < 6) {
-            return; // si es inválido, se queda como está
-        }
-        String first2 = cardNumber.substring(0, 2);
-        String last4 = cardNumber.substring(cardNumber.length() - 4);
-        String middle = "*".repeat(cardNumber.length() - 6);
-        this.cardNumber =  first2 + middle + last4;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
 }
