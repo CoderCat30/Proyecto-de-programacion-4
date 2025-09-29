@@ -3,6 +3,8 @@ body{
     background-image: url("../imagenes/Beijing1920.jpg");
     background-size: cover;
     background-attachment: fixed;
+    padding-top: 80px;  /* Altura del header + margen */
+    padding-bottom: 70px;  /* Altura del footer + margen */
 }
 
 h2 {

@@ -12,6 +12,10 @@
     <meta charset="UTF-8">
     <title>Crear Perfil</title>
     <style>
+        body {
+            padding-top: 80px;  /* Altura del header + margen */
+            padding-bottom: 70px;  /* Altura del footer + margen */
+        }
 
       .form-section {
         border: 1px solid #ccc;
@@ -69,9 +73,9 @@
 <main>
 
   <div class="container">
-    <h2>Crear Perfil de Usuario</h2>
+    <h2>No se encontro un perfil asociado a su cuenta, por favor llene con sus datos</h2>
 
-    <form th:action="@{/perfil/crear}" method="post">
+    <form th:action="@{/pagina_personal/perfil/crear}" method="post">
       <!-- user_id oculto -->
       <input type="hidden" name="userId" th:value="${usuarioLog.id}" />
 

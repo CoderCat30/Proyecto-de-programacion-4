@@ -11,6 +11,10 @@ public class UserInformationService {
         this.userInformationRepository = userInformationRepository;
     }
 
+    public UserInformation create(UserInformation userInformation) {
+        return userInformationRepository.save(userInformation);
+    }
+
     public UserInformation getUserInformationById(Integer id){
         return userInformationRepository.findById(id).orElse(null);
     }

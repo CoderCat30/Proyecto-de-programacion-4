@@ -23,4 +23,24 @@ public class ArticuloService {
     public Optional<Articulo> buscarPorId(Integer id) {
         return articuloRepository.findById(id);
     }
+
+    public void actualizarStock(Integer productoId, int cantidadVendida) {
+        Articulo producto = articuloRepository.findById(productoId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        int nuevoStock = producto.getStockQuantity() - cantidadVendida;
+
+        if (nuevoStock < 0) {
+            throw new RuntimeException("Stock insuficiente para el producto: " + producto.getName());
+        }
+
+        producto.setStockQuantity(nuevoStock);
+        articuloRepository.save(producto);
+    }
+
+    public boolean verificarStockDisponible(Integer productoId, int cantidadSolicitada) {
+        return articuloRepository.findById(productoId)
+                .map(producto -> producto.getStockQuantity() >= cantidadSolicitada)
+                .orElse(false);
+    }
 }

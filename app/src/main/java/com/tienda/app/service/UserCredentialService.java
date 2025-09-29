@@ -17,7 +17,6 @@ public class UserCredentialService {
         UserCredentialModel userCredential = new UserCredentialModel();
         userCredential.setEmail(email);
         userCredential.setPasswordHash(passwordHash);
-        userCredential.setRole("user");
         return userCredentialRepository.save(userCredential);
     }
 

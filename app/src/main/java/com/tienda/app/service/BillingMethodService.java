@@ -1,6 +1,7 @@
 package com.tienda.app.service;
 
 import com.tienda.app.model.BillingMethod;
+import com.tienda.app.repository.BankRepository;
 import com.tienda.app.repository.BillingMethodRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +9,13 @@ import java.util.List;
 
 @Service
 public class BillingMethodService {
-    public BillingMethodService(BillingMethodRepository billingMethodRepository) {
+    public BillingMethodService(BillingMethodRepository billingMethodRepository, BankRepository bankRepository) {
         this.billingMethodRepository = billingMethodRepository;
+        this.bankRepository = bankRepository;
     }
 
     private final BillingMethodRepository billingMethodRepository;
+    private final BankRepository bankRepository;
 
 
     public List<BillingMethod> findAllByUserId(Integer id){
@@ -40,4 +43,31 @@ public class BillingMethodService {
         String middle = "*".repeat(cardNumber.length() - 6);
         return first2 + middle + last4;
     }
+
+   /* public List<BillingMethod> findAllByUserId(Integer userId) {
+        return billingMethodRepository.findByUserId(userId);
+    }*/
+
+    public void create(BillingMethod billingMethod) {
+        billingMethodRepository.save(billingMethod);
+    }
+
+   /* public void deleteById(Integer id) {
+        billingMethodRepository.deleteById(id);
+    }*/
+
+    // Validar que la tarjeta exista en la tabla bank
+    public boolean validarTarjetaEnBanco(String cardNumber, String brand,
+                                         Integer expMonth, Integer expYear,
+                                         String nameOnCard) {
+        return bankRepository.existsByCardNumberAndBrandAndExpMonthAndExpYearAndNameOnCard(
+                cardNumber, brand, expMonth, expYear, nameOnCard
+        );
+    }
+
+    // Verificar si el usuario ya tiene registrada esta tarjeta
+    public boolean usuarioTieneTarjeta(Integer userId, String cardNumber) {
+        return billingMethodRepository.existsByUserIdAndCardNumber(userId, cardNumber);
+    }
+
 }
