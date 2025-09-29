@@ -7,10 +7,10 @@
 
 <!-- Header fragment -->
 <div th:fragment="header">
-    <header class="main-header">
+    <header>
         <div class="logo">
-            <a class="Main_Logo" href="https://pokemondb.net/pokedex/charmander"><img src="https://img.pokemondb.net/sprites/lets-go-pikachu-eevee/normal/charmander.png" alt="Charmander"></a>
-            <h2 class="Principal_tittle"> Pokedex UNA</h2>
+            <img th:src="@{/imagenes/logo1.jpg}" alt="logo">
+            <h2>UNAexpress 椰子店</h2>
         </div>
         <nav>
             <ul>
@@ -43,26 +43,12 @@
     </header>
 </div>
 
-<!-- subheader fragment -->
-<div th:fragment="subheader" class="subheader">
-    <nav class="subheader-nav">
-        <ul>
-            <li><a href="/" class="nav-link">Comics</a></li>
-            <li><a href="/">Figuras de acción</a></li>
-            <li><a href="/">Series</a></li>
-            <li><a href="/">Eventos</a></li>
-        </ul>
-    </nav>
-</div>
-
-
-
 <!-- Footer fragment -->
-<div th:fragment="footer" class = "container_footer">
+<div th:fragment="footer">
     <footer>
         <div class="logo-footer">
-            <img th:src="@{/imagenes/Logo_3.png}" alt="Logo_3">
-            <p>指先で文化に触れる</p>
+            <img th:src="@{/imagenes/chinaBan.jpg}" alt="China Bandera">
+            <p>中國共產黨萬歲</p>
         </div>
         <p>Proyecto Programación 4 - 2025</p>
     </footer>
