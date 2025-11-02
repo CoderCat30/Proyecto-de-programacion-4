@@ -1,8 +1,6 @@
-/* Reset + fuente */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -11,39 +9,36 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-top: 70px;   /* altura header */
-    padding-bottom: 60px; /* altura footer */
 }
 
-/* Contenido principal */
 main {
-    flex: 1;
+    flex: 5;
     display: flex;
     align-items: center;
-    justify-content: center; /* centrado */
-    padding: 40px 20px;
+    justify-content: flex-start; /* Alinea a la izquierda */
+    padding: 120px 5% 80px; /* Ajuste para header y footer fijos */
 }
 
 .container {
-    background: #fff;
+    background: white;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    width: 100%;
-    max-width: 450px;
-    padding: 35px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    padding: 40px;
+    margin-left: 10%; /* Empuja el contenedor hacia la izquierda */
     transition: all 0.3s ease;
 }
 
 .container:hover {
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
-    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
 }
 
 h2 {
     color: #333;
     text-align: center;
-    margin-bottom: 25px;
-    font-size: 26px;
+    margin-bottom: 30px;
+    font-size: 28px;
     font-weight: 600;
 }
 
@@ -54,24 +49,24 @@ form {
 }
 
 .input-datos {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     color: #555;
     font-weight: 500;
-    font-size: 14px;
 }
 
 input[type="email"],
 input[type="password"] {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border: 2px solid #e1e5ee;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 16px;
     transition: all 0.3s ease;
     outline: none;
 }
@@ -82,14 +77,13 @@ input[type="password"]:focus {
     box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
 }
 
-/* Botón */
 .button-container {
     margin: 20px 0;
 }
 
 input[type="submit"] {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     color: white;
     border: none;
@@ -106,12 +100,11 @@ input[type="submit"]:hover {
     box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
 }
 
-/* Enlace registro */
-.registro {
+/* Enlace de registro */
+div:last-of-type {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 20px;
     color: #666;
-    font-size: 14px;
 }
 
 a {
@@ -126,14 +119,13 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Mensajes */
+/* Mensajes de error y éxito */
 .mensaje-error, .mensaje-exito {
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
-    margin-top: 15px;
+    margin: 20px 0;
     text-align: center;
     font-weight: 500;
-    font-size: 14px;
 }
 
 .mensaje-error {
@@ -148,24 +140,46 @@ a:hover {
     border: 1px solid #c8e6c9;
 }
 
-/* Responsivo */
+/* Estilos responsivos */
 @media (max-width: 768px) {
-    .container {
-        padding: 25px;
+    main {
+        justify-content: center;
+        padding: 100px 5% 60px;
     }
-    h2 {
-        font-size: 22px;
+
+    .container {
+        width: 90%;
+        margin-left: 0;
+        padding: 30px;
     }
 }
 
 @media (max-width: 480px) {
     .container {
+        width: 95%;
         padding: 20px;
     }
+
+    h2 {
+        font-size: 24px;
+    }
+
     input[type="email"],
     input[type="password"],
     input[type="submit"] {
-        font-size: 14px;
-        padding: 10px;
+        padding: 12px;
     }
+}
+
+/* Efectos visuales adicionales */
+.input-datos input:focus + label {
+    color: #4a6cf7;
+}
+
+.input-datos.mensaje-error input {
+    border-color: #d32f2f;
+}
+
+.input-datos.mensaje-error label {
+    color: #d32f2f;
 }

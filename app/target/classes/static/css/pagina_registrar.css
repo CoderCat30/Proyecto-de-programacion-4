@@ -3,10 +3,7 @@
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-body {
-    padding-top: 80px;  /* Altura del header + margen */
-    padding-bottom: 70px;  /* Altura del footer + margen */
-}
+
 main {
     flex: 5;
     display: flex;

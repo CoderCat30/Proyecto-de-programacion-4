@@ -1,124 +1,33 @@
 footer {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background: linear-gradient(135deg, #e98d0d 0%, #d46a00 100%);
     display: flex;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background-color: rgb(7, 7, 7);
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    z-index: 1000;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
-    min-height: 60px;
-    flex-wrap: wrap;
+    padding: 10px 10px;
 }
 
-/* Logo y texto */
+.container_footer{
+    background: #000;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+footer p {
+    margin-right: 20px;
+}
+
 .logo-footer {
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
 .logo-footer img {
-    height: 35px;
-    border-radius: 4px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.logo-footer p {
-    margin: 0;
-    color: white;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-/* Enlaces */
-.footer-links {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.footer-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.footer-links a:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-}
-
-/* Íconos sociales */
-.social-icons {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.social-icons a {
-    color: white;
-    font-size: 18px;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.social-icons a:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    footer {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 15px;
-    }
-
-    .logo-footer p {
-        font-size: 12px;
-    }
-
-    .footer-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .footer-links a {
-        font-size: 12px;
-        padding: 4px 8px;
-    }
-
-    .social-icons a {
-        width: 30px;
-        height: 30px;
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .logo-footer p {
-        display: none;
-    }
-
-    .footer-links a {
-        font-size: 11px;
-    }
+    width: auto;
+    height: 40px;
+    margin-right: 10px;
 }
