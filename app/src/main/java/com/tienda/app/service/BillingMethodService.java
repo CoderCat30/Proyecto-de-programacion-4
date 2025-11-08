@@ -99,13 +99,13 @@ public class BillingMethodService {
      *
      * @return true si la tarjeta existe en el banco, false si no.
      */
-    public boolean validarTarjetaEnBanco(String cardNumber, String brand,
+    /*public boolean validarTarjetaEnBanco(String cardNumber, String brand,
                                          Integer expMonth, Integer expYear,
                                          String nameOnCard) {
         return bankRepository.existsByCardNumberAndBrandAndExpMonthAndExpYearAndNameOnCard(
                 cardNumber, brand, expMonth, expYear, nameOnCard
         );
-    }
+    }*/
 
     /**
      * Verifica si un usuario ya tiene registrada una tarjeta específica.
