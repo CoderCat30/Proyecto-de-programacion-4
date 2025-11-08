@@ -2,29 +2,45 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+
+
     <link rel="stylesheet" th:href="@{/css/index.css}">
+
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
-    <link rel="stylesheet" th:href="@{/css/articulos.css}">
+    <link rel="stylesheet" th:href="@{/css/subheader.css}">
+
+    <link rel="stylesheet" th:href="@{/css/pokedex.css}">
+
+
+
+    <script th:src="@{/js/dropdown.js}"></script>
     <title>Central Geek</title>
 </head>
-<body>
-<div th:replace="~{fragments :: header}"></div>
-<main>
 
-    <div class="hero">
-        <img class="hero-image" src="/imagenes/main_background.jpg" alt="Fondo Central Geek">
-        <div class="hero-text">
-            <h1>Central Geek</h1>
-            <p>Descubre productos de la cultura Japonesa y popular</p>
-        </div>
+<body>
+
+<div th:replace="~{fragments :: header}"></div>
+<div th:replace="~{fragments :: subheader}"></div>
+
+<main>
+    <section>
+        <div th:replace="~{pokedex :: pokemons}"></div>
+    </section>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">Cantidad </button>
+        <ul class="dropdown-menu">
+            <li><a th:href="@{'/pokedex/' + 10}">10</a></li>
+            <li><a th:href="@{'/pokedex/' + 100}">100</a></li>
+            <li><a th:href="@{'/pokedex/' + 200}">200</a></li>
+        </ul>
     </div>
 
-
-    <section>
-        <div th:replace="~{articulos :: catalogo}"></div>
-    </section>
 </main>
+
+
 <div th:replace="~{fragments :: footer}"></div>
 </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>PokéStore – Catálogo de Pokémon</title>
+  <link rel="stylesheet" th:href="@{/css/pokedex.css}">
+</head>
+<body>
+
+<!-- templates/pokedex.html -->
+<div th:fragment="pokemons" class="pokedex-container">
+  <div class="grid">
+    <div class="card" th:each="poke : ${pokemons}">
+      <img th:src="${poke.image}" alt="Imagen del Pokémon" class="card-img">
+
+      <div class="card-content">
+        <h3 th:text="${poke.name}" class="card-title"></h3>
+        <p class="card-description">
+          <strong>ID:</strong> <span th:text="${poke.id}"></span><br>
+          <strong>Altura:</strong> <span th:text="${poke.height}"></span> dm<br>
+          <strong>Peso:</strong> <span th:text="${poke.weight}"></span> hg
+        </p>
+
+        <p class="card-price">
+          <strong>₡<span th:text="${#numbers.formatDecimal(poke.id * 1500, 0, 0)}"></span></strong>
+        </p>
+
+        <form th:action="@{/carrito/agregar}" method="post" class="card-form">
+          <input type="hidden" name="id" th:value="${poke.id}">
+          <input type="hidden" name="nombre" th:value="${poke.name}">
+          <button type="submit" class="btn-agregar">Agregar al carrito</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
