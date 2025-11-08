@@ -34,7 +34,7 @@ public class ArticuloController {
     @GetMapping
     public String listarArticulos(Model model) {
         model.addAttribute("articulos", articuloService.listarTodos());
-        return "articulos";
+        return "pokedex";
     }
 
     /**
