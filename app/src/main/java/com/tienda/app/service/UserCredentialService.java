@@ -2,7 +2,11 @@ package com.tienda.app.service;
 
 import com.tienda.app.model.UserCredentialModel;
 import com.tienda.app.repository.UserCredentialRepository;
+import com.tienda.app.repository.UserInformationRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Servicio que gestiona la lógica de negocio relacionada con las credenciales de usuario.
@@ -16,13 +20,21 @@ import org.springframework.stereotype.Service;
 public class UserCredentialService {
 
     private final UserCredentialRepository userCredentialRepository;
+    private final UserInformationService userInformationService;
+    private final UserAddressService userAddressService;
+    private final BillingMethodService billingMethodService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     /**
      * Inyección de dependencias mediante constructor.
      * @param userCredentialRepository repositorio JPA de credenciales de usuario.
      */
-    public UserCredentialService(UserCredentialRepository userCredentialRepository) {
+    public UserCredentialService(UserCredentialRepository userCredentialRepository, UserInformationService userInformationService, UserAddressService userAddressService, BillingMethodService billingMethodService, BCryptPasswordEncoder passwordEncoder) {
         this.userCredentialRepository = userCredentialRepository;
+        this.userInformationService = userInformationService;
+        this.userAddressService = userAddressService;
+        this.billingMethodService = billingMethodService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -54,6 +66,15 @@ public class UserCredentialService {
         return userCredentialRepository.findByEmail(email).orElse(null);
     }
 
+    public List<UserCredentialModel> findAll() {
+        List<UserCredentialModel> usuarios = userCredentialRepository.findAll();
+
+        for (UserCredentialModel u : usuarios) {
+            u.setPasswordHash("Oculto");
+        }
+
+        return usuarios;
+    }
     /**
      * Valida las credenciales de login de un usuario.
      *
@@ -62,6 +83,25 @@ public class UserCredentialService {
      * @return el usuario autenticado si existe, null si las credenciales son incorrectas.
      */
     public UserCredentialModel ValidarCredenciales(String email, String password_hash) {
-        return userCredentialRepository.findByEmailAndPasswordHashEquals(email, password_hash).orElse(null);
+        UserCredentialModel user = userCredentialRepository.findByEmail(email).orElse(null);
+        if (user == null) return null;
+        if (passwordEncoder.matches(password_hash, user.getPasswordHash())) {
+            return user; // login correcto
+        }
+        return null; // contraseña incorrecta
+    }
+
+    public void eliminarUsuario(int id) {
+        userInformationService.eliminarUserInformation(id);
+        userAddressService.eliminarUserAddressByUser(id);
+        billingMethodService.elimiarBillingMethodByUser(id);
+        userCredentialRepository.deleteById(id);
+    }
+
+    public void actualizarRol(int id, String rol) {
+        UserCredentialModel user = userCredentialRepository.findById(id).orElse(null);
+        if (user == null) return;
+        user.setRole(rol);
+        userCredentialRepository.save(user);
     }
 }

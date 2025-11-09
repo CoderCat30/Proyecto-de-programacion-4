@@ -143,11 +143,26 @@ CREATE TABLE order_items (
                              FOREIGN KEY (product_id) REFERENCES products(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- tabla de Configuración para administrar el tiempo de sesión
+CREATE TABLE configuracion (
+    clave VARCHAR(100) NOT NULL PRIMARY KEY,
+    valor_segundos INT NOT NULL
+);
+
+INSERT INTO configuracion (clave, valor_segundos)
+VALUES ('tiempo_sesion', 10)
+    ON DUPLICATE KEY UPDATE valor_segundos = 10;
+
+
+-- contraseñas
+-- admin
+-- 1234
+-- 2345
 
 INSERT INTO user_credentials (email, role, password_hash) VALUES
-('admin@gmail.com', 'admin', 'admin'),
-('user1@gmail.com', 'user', '1234'),
-('user2@gmail.com', 'user', '2345');
+('admin@gmail.com', 'admin', '$2a$12$3uZi74cRqPKqauE0s/CrJe6WICwUuRS19mh0/oGSTG0De8CjLl7Q2'),
+('user1@gmail.com', 'user', '$2a$12$u8rixxeRVoMHf3swuh4w9.yjMJRL9/o3WPg0NfIfRCcYRfh5IOyhm'),
+('user2@gmail.com', 'user', '$2a$12$ewnvHd8q7wBwK4Pkaw6w1eRInDN0Iw22gBSecDTwNuYypFhSSd44y');
 
 INSERT INTO user_information (user_id, full_Name, cedula) VALUES
 (1, 'Administrador Principal', '16161'),

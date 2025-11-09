@@ -48,4 +48,6 @@ public interface BillingMethodRepository extends JpaRepository<BillingMethod, In
      * @return true si existe, false si no.
      */
     boolean existsByUserIdAndCardNumber(Integer userId, String cardNumber);
+
+    void deleteByUser_Id(Integer userId);
 }

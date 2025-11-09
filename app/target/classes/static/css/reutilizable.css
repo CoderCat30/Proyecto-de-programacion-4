@@ -1,0 +1,174 @@
+/* === REGLAS BÁSICAS Y RESET === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    padding-top: 80px;  /* espacio para el header */
+    padding-bottom: 70px; /* espacio para el footer */
+    line-height: 1.5;
+}
+
+label, input, button, select, textarea {
+    font-family: inherit;
+}
+
+/* === CONTENEDOR PRINCIPAL === */
+.main-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* === TARJETAS / SECCIONES === */
+.form-section {
+    background: #fff;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #667eea;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* === FORMULARIOS === */
+.form-row {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+/* === BOTONES === */
+button[type="submit"],
+button,
+.btn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgb(233, 141, 13) 0%, rgb(212, 106, 0) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover,
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 137, 9, 0.4);
+}
+
+/* === PÁRRAFOS INFORMATIVOS === */
+.form-section p {
+    background-color: #f8f9ff;
+    border: 1px solid #dcdfff;
+    color: #555;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Botones y selects dentro de tablas */
+.form-section table button,
+.form-section table select {
+    padding: 6px 12px;       /* más compacto */
+    font-size: 13px;         /* más pequeño */
+    border-radius: 6px;
+}
+
+.form-section table button {
+    background: linear-gradient(135deg, rgb(233, 141, 13) 0%, rgb(212, 106, 0) 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-section table button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(239, 137, 9, 0.4);
+}
+
+.form-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.form-section th,
+.form-section td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    font-size: 14px;
+}
+
+.form-section thead {
+    background-color: #667eea;
+    color: white;
+}
+
+.form-section tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.form-section table select {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
+
