@@ -23,4 +23,8 @@ public class UserAddressService
     public UserAddress updateUserAddress(UserAddress userAddress){
         return userAddressRepository.save(userAddress);
     }
+
+    public void eliminarUserAddressByUser(Integer id){
+        userAddressRepository.deleteByUser_Id(id);
+    }
 }

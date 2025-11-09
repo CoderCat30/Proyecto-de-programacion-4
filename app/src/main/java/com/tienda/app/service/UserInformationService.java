@@ -18,4 +18,8 @@ public class UserInformationService {
     public UserInformation getUserInformationById(Integer id){
         return userInformationRepository.findById(id).orElse(null);
     }
+
+    public void eliminarUserInformation(Integer id){
+        userInformationRepository.deleteById(id);
+    }
 }

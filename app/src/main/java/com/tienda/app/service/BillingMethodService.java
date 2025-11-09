@@ -117,4 +117,8 @@ public class BillingMethodService {
     public boolean usuarioTieneTarjeta(Integer userId, String cardNumber) {
         return billingMethodRepository.existsByUserIdAndCardNumber(userId, cardNumber);
     }
+
+    public void elimiarBillingMethodByUser(Integer userId) {
+        billingMethodRepository.deleteByUser_Id(userId);
+    }
 }

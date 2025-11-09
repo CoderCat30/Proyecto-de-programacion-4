@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagina datos personales</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+  <link rel="stylesheet" th:href="@{/css/reutilizable.css}">
+</head>
+<body>
+  <div th:replace="~{fragments :: header}"></div>
+    <main>
+      <div class="main-container">
+        <div class="form-section">
+          <h3>Configuración del Tiempo de Sesión</h3>
+
+          <p th:text="'Tiempo actual: ' + ${configuracion.valorSegundos} + ' segundos'"></p>
+
+          <form th:action="@{/admin/config/tiempo-sesion}" method="post">
+            <div class="form-row">
+              <label for="minutos">Minutos:</label>
+              <input type="number" id="minutos" name="minutos" min="0" max="59" required>
+            </div>
+
+            <div class="form-row">
+              <label for="segundos">Segundos:</label>
+              <input type="number" id="segundos" name="segundos" min="10" max="59" required>
+            </div>
+
+            <button type="submit">Actualizar Tiempo de Sesión</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="main-container">
+
+        <div class="form-section">
+          <h3>Usuarios Registrados</h3>
+
+          <table>
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Contraseña</th>
+              <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+              <td th:text="${user.id}"></td>
+              <td th:text="${user.email}"></td>
+              <td>
+                <form th:action="@{/admin/config/cambiarrol/{id}(id=${user.id})}" method="post">
+                  <select name="rol">
+                    <option value="user" th:selected="${user.role == 'user'}">User</option>
+                    <option value="admin" th:selected="${user.role == 'admin'}">Admin</option>
+                  </select>
+                  <button type="submit">Cambiar</button>
+                </form>
+              </td>
+              <td th:text="${user.passwordHash}">Oculto</td>
+              <td>
+                <form th:action="@{/admin/config/eliminaruser/{id}(id=${user.id})}" method="post"
+                      onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?');">
+                  <button type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+    </main>
+  <div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

@@ -14,20 +14,46 @@
         </div>
         <nav>
             <ul>
-                <li th:if="${title != 'Home'}">
-                    <a href="/" class="nav-link">Inicio</a>
+                <li th:if="${usuarioLog == null and title != 'Ingresar'}">
+                    <a href="/credenciales/ingresar">Login</a>
                 </li>
 
-                <li th:if="${title != 'Ingresar'}">
-                    <a href="/credenciales/ingresar">Login</a>
+                <li th:if="${usuarioLog != null}">
+                    <div style="display: flex; align-items: center;">
+                        Hola: <span th:text="${usuarioLog.email}"></span>
+                        <form th:action="@{/credenciales/logout}" method="post">
+                            <button type="submit" style="margin-left: 5px; background-color: rgba(221,9,20,0.9); color: white; border-radius: 5px">Logout</button>
+                        </form>
+                    </div>
+                </li>
+
+                <li th:if="${usuarioLog != null and usuarioLog.role == 'admin'}">
+                    <a href="/admin/config/">Pagina administracion</a>
+                </li>
+
+                <li th:if="${title != 'Home'}">
+                    <a href="/" class="nav-link">Inicio</a>
                 </li>
 
                 <li th:if="${title != 'Carrito' || title != 'Home'}">
                     <a href="/carrito">Carrito</a>
                 </li>
+
+                <li  th:if="${usuarioLog != null}">
+                    <a href="/pagina_personal">Personal</a>
+                </li>
             </ul>
         </nav>
     </header>
+
+    <th:block th:if="${usuarioLog != null}">
+        <script src="/js/sesionManejador.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                iniciarControlSesion();
+            });
+        </script>
+    </th:block>
 </div>
 
 <!-- subheader fragment -->

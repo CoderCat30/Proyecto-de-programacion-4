@@ -3,12 +3,11 @@ package com.tienda.app.controller;
 import com.tienda.app.model.UserCredentialModel;
 import com.tienda.app.service.UserCredentialService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Controlador encargado de gestionar el login, registro y logout de usuarios.
@@ -25,10 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserCredentialController {
 
     private final UserCredentialService userCredentialService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     // Inyección del servicio que maneja la lógica de usuarios
-    public UserCredentialController(UserCredentialService userCredentialService) {
+    public UserCredentialController(UserCredentialService userCredentialService,
+                                    BCryptPasswordEncoder passwordEncoder) {
         this.userCredentialService = userCredentialService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -119,6 +121,8 @@ public class UserCredentialController {
             return "pagina_registrar";
         }
 
+        String hashedPassword = passwordEncoder.encode(userCredential.getPasswordHash());
+        userCredential.setPasswordHash(hashedPassword);
         // Registrar nuevo usuario
         userCredentialService.registrarUser(
                 userCredential.getEmail(),
@@ -141,5 +145,12 @@ public class UserCredentialController {
         // Elimina todos los atributos de la sesión (incluye carrito, usuario, etc.)
         session.invalidate();
         return "redirect:/";
+    }
+
+    //metodo para la renovacion de la sesion
+    @GetMapping("/refresh")
+    @ResponseBody
+    public void refreshSession(HttpSession session) {
+        session.setMaxInactiveInterval(session.getMaxInactiveInterval());
     }
 }
