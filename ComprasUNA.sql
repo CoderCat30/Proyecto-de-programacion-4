@@ -171,35 +171,6 @@ VALUES
     (2, '234567890123', 'mastercard', 7, 2027, 'Usuario Dos'),
     (3, '345678901234', 'visa', 5, 2028, 'Usuario Tres');
 
-INSERT INTO categories (name, description, image_url) VALUES
-('Electrónicos', 'Dispositivos electrónicos y tecnología', 'img/electronicos.jpg'),
-('Ropa', 'Vestimenta y accesorios', 'img/ropa.jpg'),
-('Hogar', 'Artículos para el hogar', 'img/hogar.jpg'),
-('Deportes', 'Equipos y accesorios deportivos', 'img/deportes.jpg'),
-('Libros', 'Libros y material educativo', 'img/libros.jpg');
-
-INSERT INTO products (category_id, name, description, price, stock_quantity, image_url, is_active) VALUES
-(1, 'Smartphone X1', 'Teléfono inteligente con pantalla de 6.5 pulgadas', 499.99, 50, 'img/product_def.jpg', TRUE),
-(1, 'Laptop Pro 15', 'Portátil potente para trabajo y juegos', 1299.99, 30, 'img/product_def.jpg', TRUE),
-(1, 'Auriculares Bluetooth', 'Auriculares inalámbricos con cancelación de ruido', 79.99, 100, 'img/product_def.jpg', TRUE),
-(1, 'Smartwatch 2', 'Reloj inteligente con monitor de actividad', 149.99, 60, 'img/product_def.jpg', TRUE),
-(1, 'Cámara Digital', 'Cámara profesional con lente intercambiable', 899.99, 20, 'img/product_def.jpg', TRUE),
-(2, 'Camiseta Básica', 'Camiseta de algodón, varios colores', 19.99, 200, 'img/product_def.jpg', TRUE),
-(2, 'Jeans Regular', 'Pantalón de mezclilla cómodo', 39.99, 150, 'img/product_def.jpg', TRUE),
-(2, 'Chaqueta Ligera', 'Chaqueta para clima templado', 59.99, 80, 'img/product_def.jpg', TRUE),
-(2, 'Zapatillas Deportivas', 'Calzado cómodo para correr', 49.99, 120, 'img/product_def.jpg', TRUE),
-(2, 'Gorra Deportiva', 'Gorra ajustable de algodón', 14.99, 100, 'img/product_def.jpg', TRUE),
-(3, 'Sofá 3 Plazas', 'Sofá cómodo de tela', 399.99, 15, 'img/product_def.jpg', TRUE),
-(3, 'Mesa de Comedor', 'Mesa de madera para 6 personas', 299.99, 10, 'img/product_def.jpg', TRUE),
-(3, 'Lámpara de Techo', 'Lámpara moderna para sala', 79.99, 25, 'img/product_def.jpg', TRUE),
-(3, 'Alfombra Grande', 'Alfombra decorativa para sala', 59.99, 30, 'img/product_def.jpg', TRUE),
-(3, 'Estantería', 'Estantería de madera para libros', 89.99, 20, 'img/product_def.jpg', TRUE),
-(4, 'Balón de Fútbol', 'Balón oficial para entrenamiento', 29.99, 100, 'img/product_def.jpg', TRUE),
-(4, 'Raqueta de Tenis', 'Raqueta ligera para principiantes', 49.99, 40, 'img/product_def.jpg', TRUE),
-(4, 'Guantes de Boxeo', 'Guantes acolchados de entrenamiento', 34.99, 60, 'img/product_def.jpg', TRUE),
-(5, 'Libro de Matemáticas', 'Libro educativo para secundaria', 24.99, 70, 'img/product_def.jpg', TRUE),
-(5, 'Novela de Aventura', 'Historia emocionante de aventuras', 14.99, 80, 'img/product_def.jpg', TRUE);
-
 
 
 
